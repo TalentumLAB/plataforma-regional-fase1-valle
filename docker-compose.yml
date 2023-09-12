@@ -67,13 +67,13 @@ services:
       DB_HOST: host.docker.internal
       DB_PORT: 3306
       DB_USER: bilinguismo-db-user
-      DB_PASSWORD: "Bilinguismo2022*"
+      DB_PASSWORD: Bilinguismo2022*
       DB_DATABASE: simat_db
       KEYCLOAK_DB_HOST: host.docker.internal
       KEYCLOAK_DB_PORT: 5432
       KEYCLOAK_DB_USER: bilinguismo_db_user
       KEYCLOAK_DB_NAME: keycloak
-      KEYCLOAK_DB_PASSWORD: "Bilinguismo222*"
+      KEYCLOAK_DB_PASSWORD: Bilinguismo222*
       KEYCLOAK_API_URL: /admin/realms/bilinguismovalle
       KEYCLOAK_BASE_URL: http://aulasquindio.local:8080/auth
       KEYCLOAK_CLIENT_ID: client-api
@@ -92,7 +92,7 @@ services:
       - aulas-steam-net
 
   frontend:
-    image: bilinguismotalentum/frontend:1.1.11
+    image: bilinguismotalentum/frontend:1.0.0-bilinguismo-valle
     container_name: bilng_valle_reporter_frontend
     restart: always
     environment:
