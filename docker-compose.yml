@@ -133,12 +133,12 @@ services:
     networks:
       - aulas-steam-net
     volumes:
-      - './moodle/moodle_data:/bitnami/moodle'
-      - 'moodledata_data:/bitnami/moodledata'
+      - '/tumlab/apps/moodle/moodle:/bitnami/moodle'
+      - '/tumlab/apps/moodle/moodledata:/bitnami/moodledata'
     
-volumes:
-  moodledata_data:
-    driver: local
+# volumes:
+#   moodledata_data:
+#     driver: local
 
 networks:
   aulas-steam-net:
