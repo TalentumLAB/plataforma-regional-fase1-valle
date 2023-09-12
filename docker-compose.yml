@@ -80,7 +80,7 @@ services:
       KEYCLOAK_CLIENT_SECRET: JNbF4R1FXMJhYVUuZHDNRYUfatfuBH8D
       KEYCLOAK_GET_TOKEN_URL: /realms/bilinguismovalle/protocol/openid-connect/token
       OVERRIDE_DB_HOST: host.docker.internal
-      OVERRIDE_DB_PASSWORD: "Bilinguismo2022*"
+      OVERRIDE_DB_PASSWORD: Bilinguismo2022*
       OVERRIDE_DB_PORT: 3306
       OVERRIDE_DB_USER: bilinguismo-db-user
 
@@ -123,8 +123,8 @@ services:
       MOODLE_DATABASE_TYPE: mysqli
       MOODLE_DATABASE_HOST: host.docker.internal
       MOODLE_DATABASE_PORT_NUMBER: 3306
-      MOODLE_DATABASE_USER: root
-      MOODLE_DATABASE_PASSWORD: Tumlab2022*
+      MOODLE_DATABASE_USER: bilinguismo-db-user
+      MOODLE_DATABASE_PASSWORD: Bilinguismo2022*
       MOODLE_DATABASE_NAME: moodle_db
       MOODLE_SKIP_BOOTSTRAP: true
     ports:
