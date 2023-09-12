@@ -1,0 +1,10 @@
+{
+    "name": "talentum/moodle-format_talentum",
+    "type": "moodle-format",
+    "require": {
+        "composer/installers": "~1.0"
+    },
+    "extra": {
+        "installer-name": "talentum_format"
+    }
+}

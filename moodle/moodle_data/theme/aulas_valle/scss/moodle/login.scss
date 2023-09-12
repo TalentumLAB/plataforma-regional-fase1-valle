@@ -1,0 +1,316 @@
+$loginbackground-gradient-from: $gray-100 !default;
+$loginbackground-animated-from: #3399ff !default;
+$loginbackground-gradient-to: $gray-300 !default;
+$logincontainer-bg: $white !default;
+$logincontainer-padding: 3rem !default;
+$logincontainer-shadow: $box-shadow !default;
+$logindivider-margin-top: 1.5rem !default;
+$logindivider-margin-bottom: 1.5rem !default;
+$logindivider-border: $border-color !default;
+$login-identity-provider-btn-border: $border-color !default;
+
+.pagelayout-login #region-main {
+    border: 0;
+    background-color: inherit;
+}
+
+/*animated login*/
+.aulas_valle-animated-circles{
+    position: absolute;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 102%;
+    overflow: hidden;
+}
+
+.aulas_valle-animated-circles li{
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    animation: animate 25s linear infinite;
+    bottom: -150px;
+    
+}
+
+.aulas_valle-animated-circles li:nth-child(1){
+    left: 25%;
+    width: 80px;
+    height: 80px;
+    animation-delay: 0s;
+}
+
+.aulas_valle-animated-circles li:nth-child(2){
+    left: 10%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 2s;
+    animation-duration: 12s;
+}
+
+.aulas_valle-animated-circles li:nth-child(3){
+    left: 70%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 4s;
+}
+
+.aulas_valle-animated-circles li:nth-child(4){
+    left: 40%;
+    width: 60px;
+    height: 60px;
+    animation-delay: 0s;
+    animation-duration: 18s;
+}
+
+.aulas_valle-animated-circles li:nth-child(5){
+    left: 65%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 0s;
+}
+
+.aulas_valle-animated-circles li:nth-child(6){
+    left: 75%;
+    width: 110px;
+    height: 110px;
+    animation-delay: 3s;
+}
+
+.aulas_valle-animated-circles li:nth-child(7){
+    left: 35%;
+    width: 150px;
+    height: 150px;
+    animation-delay: 7s;
+}
+
+.aulas_valle-animated-circles li:nth-child(8){
+    left: 50%;
+    width: 25px;
+    height: 25px;
+    animation-delay: 15s;
+    animation-duration: 45s;
+}
+
+.aulas_valle-animated-circles li:nth-child(9){
+    left: 20%;
+    width: 15px;
+    height: 15px;
+    animation-delay: 2s;
+    animation-duration: 35s;
+}
+
+.aulas_valle-animated-circles li:nth-child(10){
+    left: 85%;
+    width: 150px;
+    height: 150px;
+    animation-delay: 0s;
+    animation-duration: 11s;
+}
+
+
+@keyframes animate {
+
+    0%{
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+        border-radius: 0;
+    }
+
+    100%{
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+        border-radius: 50%;
+    }
+
+}
+/*animated login aulas_valle-cube*/
+.aulas_valle-cube {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    transform-style: preserve-3d;
+    transform: rotateX(-30deg);
+    animation: animatecube 15s linear infinite;
+}
+
+@keyframes animatecube {
+    0% {
+        transform: rotateX(-30deg) rotateY(0deg);
+    }
+    100% {
+        transform: rotateX(-30deg) rotateY(360deg);
+    }
+}
+
+.aulas_valle-cube div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.aulas_valle-cube div span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#fff, #1FA3AA);
+    transform: rotateY(calc(90deg * var(--i))) translateZ(125px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .aulas_valle-img-cube{
+        width: 100%;
+    }
+}
+
+.aulas_valle-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 200px;
+    background: #fff;
+    transform: rotateX(90deg) translateZ(125px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: aliceblue;
+    font-size: 3em;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    .aulas_valle-img-cube{
+        width: 100%;
+    }
+}
+
+ion-icon {
+    font-size: 2em;
+}
+
+.aulas_valle-top::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 250px;
+    background: #1FA3AA;
+    transform: translateZ(-250px);
+    filter: blur(20px);
+    box-shadow: 0 0 120px rgba(0, 255, 0, .2),
+    0 0 200px rgba(31 163 170 .4),
+    0 0 300px rgba(31 163 170 .6),
+    0 0 400px rgba(31 163 170 .8),
+    0 0 500px rgba(31 163 170 1);
+}
+
+/*end animated login aulas_valle-cube*/
+/*End animated login*/
+
+#logoimage{
+    display: none;
+}
+#page.aulas_valle-animated-area{
+    flex-direction: row !important;
+    padding: 0 !important;
+    justify-content: center;
+}
+.aulas_valle-login-left-image{
+    background: url([[pix:theme|BACK-LOGIN]]);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.aulas_valle-login-right-side{
+    background: #fff;
+}
+
+.pagelayout-login #page {
+    background: $loginbackground-animated-from;
+    // @include gradient-x($loginbackground-gradient-from, $loginbackground-gradient-to, 0%, 100%);
+    div[role="main"] {
+        height: 100%;
+    }
+}
+
+.login-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+}
+
+#loginbtn{
+    width: 100%;
+}
+
+.login-container {
+    background-color: $logincontainer-bg;
+    padding: $logincontainer-padding;
+    margin-bottom: 2rem;
+    .login-languagemenu {
+        display: flex;
+        justify-content: flex-start;
+        .dropdown-toggle{
+            box-shadow: none;
+        }
+        .dropdown-menu {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    }
+    .login-logo {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+    .login-divider {
+        // margin-top: $logindivider-margin-top;
+        // margin-bottom: $logindivider-margin-bottom;
+        // border-top: $border-width solid $logindivider-border;
+        display: none;
+    }
+
+    h1.login-heading {
+        font-size: $h2-font-size;
+    }
+
+    h2.login-heading {
+        font-size: $h4-font-size;
+    }
+    .login-identityproviders {
+        .login-identityprovider-btn {
+            border: $border-width solid $login-identity-provider-btn-border;
+        }
+    }
+    .divider {
+        width: $border-width;
+        background-color: $gray-300;
+        height: $font-size-base * 2;
+    }
+    .action-menu-trigger {
+        a {
+            margin: 0.5rem 0;
+        }
+    }
+    .loginform{
+        div:last-child{
+            justify-content: center;
+        }
+    }
+}
+
+@include media-breakpoint-up(md) {
+    .login-container {
+        max-width: 600px;
+        @include border-radius();
+    }
+}

@@ -1,0 +1,787 @@
+/*
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * format_aulas_renderer
+ *
+ * @package    format_aulas
+ * @author     Rodrigo Brandão <rodrigo_brandao@me.com>
+ * @copyright  2018 Rodrigo Brandão
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+ /** moodle styles modified*/
+ .dropdown-menu.show{
+  z-index: 99999;
+ }
+.activity-information{
+  min-width: 15%;
+}
+.activity-information button{
+  font-size: 10px;
+  padding: 5px;
+  margin-top: 0.5rem;
+}
+.activity-information button.btn-outline-success{
+  background: #1A9C46;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  border: none;
+}
+.activity-information button.btn-outline-success i{
+  color: #fff;
+}
+.automatic-completion-conditions .badge{
+  margin-right: 0.2rem;
+}
+.aulas-editing .activity-item{
+  padding: 0 !important;
+  overflow: visible;
+  display: flex;
+  flex-direction: column-reverse;
+}
+.aulas-no-editing .activity-item{
+  padding: 0 !important;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column-reverse;
+}
+.activityiconcontainer{
+  border-radius: 50% !important;
+}
+.aulas-no-editing .activityiconcontainer{
+  width: 30px !important;
+  height: 30px !important;
+}
+.aulas-no-editing .activityiconcontainer .activityicon{
+  height: 16px !important;
+  width: 16px !important;
+}
+.aulas-no-editing .activity-basis, 
+.aulas-editing .activity-basis{
+  padding: 0.5rem;
+}
+.aulas-no-editing .activity-basis>div, 
+.aulas-editing .activity-basis>div{
+  flex-wrap: wrap;
+  align-items: center;
+}
+.aulas-no-editing .activity-basis .media-body .text-uppercase,
+.aulas-editing .activity-basis .media-body .text-uppercase{
+  display:none;
+}
+.aulas-no-editing .activity-basis .media-body .activityname,
+.aulas-editing .activity-basis .media-body .activityname{
+  line-height: 1.2;
+}
+.aulas-no-editing .activity-basis .media-body .activityname a,
+.aulas-editing .activity-basis .media-body .activityname a{
+  font-size: 1rem;
+  color: #000;
+  font-weight: 600;
+}
+.aulas-no-editing .section .activity{
+  max-width: 30%;
+  width: 30%;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+@media screen and (max-width:768px) {
+  .aulas-no-editing .section .activity{
+    max-width: 45%;
+    width: 45%;
+  }
+}
+@media screen and (max-width: 540px){
+  .aulas-no-editing .section .activity {
+      max-width: 90%;
+      width: 100%;
+  }
+}
+/* #courseindex-content>div .courseindex-section:nth-child(2){
+  display: none;
+} */
+
+.automatic-completion-conditions .badge{
+  white-space: normal;
+}
+
+ /** end moodle styles modified*/
+
+ .course-content ul.buttons li.section.main {
+  background: none;
+  list-style: none;
+  display: none;
+  border:none;
+}
+
+.course-content ul.buttons span.above li.section {
+  border: 0;
+  display: block;
+  margin-bottom: 30px;
+  padding-bottom: 0;
+}
+
+.course-content ul.buttons span.below li.section {
+  border: 0;
+  display: block;
+  margin-top: 35px;
+}
+
+.course-content ul.buttons .content ul.section {
+  margin: 1em 0;
+}
+
+#aulas-container-section {
+  display: none;
+}
+
+#aulas-container-section .buttonsection-aulas {
+  border: 1px solid #ccc;
+  background: white;
+  width: 100%;
+  color: #7a8188;
+  display: inline-block;
+  text-align: center;
+  line-height: 52px;
+  height: 52px;
+  overflow: hidden;
+  cursor: pointer;
+  font-size: 22px;
+  padding: 0;
+  font-weight: 700;
+  margin: 0;
+  vertical-align: top;
+  box-shadow: 5px 4px 6px #e0dfdf;
+  font-weight: 100;
+}
+
+#aulas-container-section.circle .buttonsection-aulas {
+  border-radius: 100%;
+}
+
+#aulas-container-section .buttonsection-aulas:hover {
+  background: #313131;
+  color: #fff;
+  border-color: #ff0019;
+}
+
+#aulas-container-section .buttonsection-aulas.sectionhidden {
+  width: 53px;
+  height: 53px;
+  line-height: 50px;
+  border: 2px solid;
+  background: none;
+  cursor: default;
+  color: #b7bdc3;
+  border-color: #d3d9df;
+}
+
+#aulas-container-section .divisorsection {
+  display: inline-block;
+  padding: 0;
+  overflow-y: hidden;
+  height: 52px;
+  margin: 0 4px 10px 25px;
+}
+
+#aulas-container-section .divisortext {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 0;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  overflow-y: hidden;
+  height: 52px;
+  text-align: right;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* colors */
+
+#aulas-container-section .buttonsection-aulas.current {
+  background: #115898;
+  color: #fff;
+}
+
+#aulas-container-section .buttonsection-aulas.sectionvisible {
+  background: #313131;
+  color: #fff;
+  border-color: #ff0019;
+}
+
+#aulas-container-section .divisorsection.inlinebuttonsections {
+  display: inline;
+}
+
+#aulas-container-section .divisorsection.inlinebuttonsections::before {
+  content: "\A";
+  white-space: pre;
+}
+
+/* editing */
+
+.editing .course-content ul.buttons li.section.main {
+  display: block;
+}
+
+.aulas-container-cards {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.aulas-module-card {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem;
+}
+
+.aulas-card-img {
+  max-width: 350px;
+  min-width: 150px;
+}
+
+/* .aulas-back-navbar {
+  margin-bottom: 1rem;
+} */
+.aulas-back-navbar .aulas-back-nav{
+  border-radius: 4px !important;
+  border: none !important;
+  padding: 0.6rem 1.5rem !important;
+  color: #fff !important;
+}
+.aulas-back-nav i{
+  margin-right: 1rem;
+}
+
+.aulas-editing .section .img-text{
+  display: block;
+}
+.aulas-editing .section .activity{
+  max-width: 100%;
+}
+.aulas-editing .section li.activity.hasinfo{
+    border-bottom: none;
+    padding: 0;
+    padding-top: 0rem!important;
+    overflow: initial;
+    width: 100%;
+    height: auto;
+    border: none;
+    margin-left: 0;
+    border-radius: 0;
+    display: block;
+}
+.aulas-editing  .section li.activity.hasinfo:hover{
+  box-shadow: none;
+}
+
+.aulas-editing .section li.activity.hasinfo .mod-indent-outer div:last-child{
+  display: block;
+  padding: 0;
+}
+.aulas-editing .section li.activity.hasinfo .mod-indent-outer div:last-child.dropdown-menu{
+  display: none;
+}
+.dropdown-menu.show{
+  display: block !important;
+}
+
+.aulas-editing .section .activity .contentwithoutlink, .section .activity .activityinstance{
+  width: auto;
+  margin-top: 0;
+}
+
+.aulas-editing .section li.activity.hasinfo  .activity-information button.btn-outline-success i{
+  margin-bottom: 0.5rem;
+}
+
+
+
+/*cards news*/
+/*aulas card modules new*/
+
+.card-deck {
+  margin:1em auto;
+  }
+  #aulas-button-section-1{
+    background-color: #CE9618;
+  }
+  #aulas-button-section-1:after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: -5px;
+    left: -5px;
+    background: #CE9618;
+    height: 32px;
+    width: 32px;
+    border-radius: 32px;
+    transform: scale(1);
+    transform-origin: 50% 50%;
+    transition: transform 0.7s ease-out;
+  }
+  #aulas-button-section-1:hover:after {
+    background: #0D7839;
+    transform: scale(28);
+  }
+  .aulas-after-class-1:after{
+    background: #0D7839 !important;
+    transform: scale(28)  !important;
+  }
+  #aulas-button-section-2{
+    background-color: #C21A16;
+  }
+  #aulas-button-section-2:after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: -5px;
+    left: -5px;
+    background: #C21A16;
+    height: 32px;
+    width: 32px;
+    border-radius: 32px;
+    transform: scale(1);
+    transform-origin: 50% 50%;
+    transition: transform 0.7s ease-out;
+  }
+  #aulas-button-section-2:hover:after {
+    background: #194866;
+    transform: scale(28);
+  }
+  .aulas-after-class-2:after{
+    background: #194866 !important;
+    transform: scale(28)  !important;
+  }
+  #aulas-button-section-3{
+    background-color: #066265;
+  }
+  #aulas-button-section-3:after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: -5px;
+    left: -5px;
+    background: #066265;
+    height: 32px;
+    width: 32px;
+    border-radius: 32px;
+    transform: scale(1);
+    transform-origin: 50% 50%;
+    transition: transform 0.7s ease-out;
+  }
+  #aulas-button-section-3:hover:after {
+    background: #532C85;
+    transform: scale(28);
+  }
+  .aulas-after-class-3:after{
+    background: #532C85 !important;
+    transform: scale(28)  !important;
+  }
+  #aulas-button-section-4{
+    background-color: #0D7839;
+  }
+  #aulas-button-section-4:after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: -5px;
+    left: -5px;
+    background: #0D7839;
+    height: 32px;
+    width: 32px;
+    border-radius: 32px;
+    transform: scale(1);
+    transform-origin: 50% 50%;
+    transition: transform 0.7s ease-out;
+  }
+  #aulas-button-section-4:hover:after {
+    background: #AB1E1A;
+    transform: scale(28);
+  }
+  .aulas-after-class-4:after{
+    background: #AB1E1A !important;
+    transform: scale(28)  !important;
+  }
+  .card.aulas-card-module {
+      min-width: 340px;
+      border-radius: 20px;
+      margin:1rem auto;
+      padding: 0px !important;
+      overflow: hidden;
+      min-height: 250px; 
+      max-width: 340px;
+      margin-right: 0;
+  }
+  .aulas-module-images-dashboard{
+    position: absolute !important;
+    z-index: 1;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .aulas-module-images-dashboard img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+  .aulas-module-images-dashboard img:hover{
+    cursor: pointer;
+  }
+  .card-footer.aulas-card-module-footer {
+      display: flex;
+      justify-content: flex-end;
+      background:#fff;
+      border-radius:20px;
+  }
+  .card-footer{
+  border-top: 0;
+  }
+  a.btn.btn-secondary.aulas-card-module-btn {
+      margin: 0;
+      min-width: 4rem;
+      padding: 0 0;
+  }
+  .card-body.aulas-card-module-body {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+  }
+  .card-body.aulas-card-module-body a {
+    z-index: 1;
+}
+  .card-body.aulas-card-module-body:hover {
+    cursor: pointer;
+  }
+  
+  .card-title_aulas{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 38px;
+    text-transform: capitalize;
+    line-height: 24px;
+    color: #fff;
+    margin-bottom: 0.2rem !important;
+  }
+  .aulas-title-dashboard{
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 20px;
+  }
+  .aulas-title-modules{
+    font-weight: 400;
+    font-size: 36px;
+    color: #128F46;
+  }
+  .aulas-subtitle-module{
+    font-weight: 400;
+    font-size: 18px;
+  }
+  .card-text_aulas{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 0.2rem;
+    z-index: 1;
+  }
+  a.btn.btn-secondary.aulas-card-module-btn{
+  color:#ae002d;
+  }
+  .aulas-card-module-btn:hover {
+      color: white;
+      text-decoration: none;
+  }
+  @media screen and (max-width:690px){
+  .card.aulas-card-module {
+      max-width: 12rem;
+      border-radius: 20px;
+       margin:1rem auto;
+  }
+  }
+  #charge{
+      width: 120px;
+      height: 120px;
+      display: block;
+      margin: 0 auto;
+  }
+  #section-0 .content #summary {
+      display:none !important;
+  }
+  #section-0 .content .section ul li .mod-indent-outer .activityinstance a img{
+      display:none !important;
+  }
+  #section-0 .content .section ul li .mod-indent-outer .activityinstance{
+      min-height: 0 !important;
+  }
+  .section .activity .activityinstance:hover{
+      color: #fff !important;
+      text-decoration:none;
+  }
+
+  /*LOADER*/
+  .lds-roller {
+      display: inline-block;
+      position: relative;
+      width: 80px;
+      height: 80px;
+    }
+    .lds-roller div {
+      animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      transform-origin: 40px 40px;
+    }
+    .lds-roller div:after {
+      content: " ";
+      display: block;
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #AD002E;
+      margin: -4px 0 0 -4px;
+    }
+    .lds-roller div:nth-child(1) {
+      animation-delay: -0.036s;
+    }
+    .lds-roller div:nth-child(1):after {
+      top: 63px;
+      left: 63px;
+    }
+    .lds-roller div:nth-child(2) {
+      animation-delay: -0.072s;
+    }
+    .lds-roller div:nth-child(2):after {
+      top: 68px;
+      left: 56px;
+    }
+    .lds-roller div:nth-child(3) {
+      animation-delay: -0.108s;
+    }
+    .lds-roller div:nth-child(3):after {
+      top: 71px;
+      left: 48px;
+    }
+    .lds-roller div:nth-child(4) {
+      animation-delay: -0.144s;
+    }
+    .lds-roller div:nth-child(4):after {
+      top: 72px;
+      left: 40px;
+    }
+    .lds-roller div:nth-child(5) {
+      animation-delay: -0.18s;
+    }
+    .lds-roller div:nth-child(5):after {
+      top: 71px;
+      left: 32px;
+    }
+    .lds-roller div:nth-child(6) {
+      animation-delay: -0.216s;
+    }
+    .lds-roller div:nth-child(6):after {
+      top: 68px;
+      left: 24px;
+    }
+    .lds-roller div:nth-child(7) {
+      animation-delay: -0.252s;
+    }
+    .lds-roller div:nth-child(7):after {
+      top: 63px;
+      left: 17px;
+    }
+    .lds-roller div:nth-child(8) {
+      animation-delay: -0.288s;
+    }
+    .lds-roller div:nth-child(8):after {
+      top: 56px;
+      left: 12px;
+    }
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    /*PROGRESS BAR*/
+    .progress {
+      display: flex;
+      height: .7rem !important;
+      overflow: hidden;
+      font-size: .75rem;
+      background-color: #f5f5f5;
+      border-radius: .25rem;
+      z-index: 1;
+  }
+  .progress-bar {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-pack: center;
+    justify-content: center;
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #fff !important;
+    transition: width .6s ease;
+}
+.progress-bar-striped{
+  background: #D9D9D9;
+}
+.bg-success-bar {
+  /* background-color: #72b375 !important; */
+  background: linear-gradient(270deg, #25B34D 1.82%, rgba(130, 253, 164, 0.45) 100%);
+}
+.progress-bar-p{
+  margin: 0;
+  color: #2b134a;
+  font-size: 12px;
+  z-index: 1;
+}
+/* timeline activities*/
+.activities{
+  margin-top: 15px;
+}
+/* .activities:after{
+top: 100%;
+  content: '';
+  display: block;
+  position: absolute;
+  left: 1.3rem;
+  height: 1.3rem;
+  border-left: 1px solid grey;
+} */
+/* .section li:last-child .activities:after{
+    content: '';
+    border: none;
+  } */
+  .aulas-back-navbar #module-image{
+    display: none;
+  }
+  .aulas-back-navbar{
+    display: block;
+    box-shadow: none !important;
+    margin-bottom: 2rem;
+  }
+  .aulas-back-navbar .module-title{
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 20px;
+    color: #000000;
+    margin-top: 1rem;
+  }
+  #module-image{
+    max-height: 170px;
+    width: 100%;
+  }
+  .aulas-no-editing .section .right.side,
+  .aulas-no-editing .section .sectionname{
+      display:none;
+  }
+  .aulas-no-editing .section .img-text{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 767.98px){
+    .aulas-no-editing .section .img-text{
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .aulas-no-editing .section li.activity.hasinfo{
+    border-bottom: 0 !important;
+    padding: 0rem 0rem 0.2rem;
+    padding-top: 0rem !important;
+    overflow: hidden;
+    width: 280px;
+    height: auto;
+    border: none;
+    margin-left: 0.2rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    background: #fff;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+  }
+  .aulas-no-editing .section li.activity.hasinfo:hover{
+    box-shadow: 0px 4px 12px rgb(52 130 174 / 37%);
+  }
+  .aulas-no-editing .section li.activity.hasinfo > div{
+    padding: 0;
+  }
+  .aulas-no-editing .section li.activity.hasinfo .mod-indent-outer{
+    padding-bottom: 1rem;
+    background-color: #fff;
+  }
+  .aulas-no-editing .mod-indent-outer div:last-child{
+    display: flex;
+    /* justify-content: flex-end; */
+    padding-right: 0.2rem;
+    padding-left: 0.2rem;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+  .section .activity .contentwithoutlink>a, .section .activity .activityinstance>a{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.2;
+    color: #111111;
+    padding-left: 10px !important;
+  }
+  @media (max-width: 767.98px){
+    .section .activity .contentwithoutlink>a, .section .activity .activityinstance>a{
+      padding-left: 20px !important;
+    }
+  }
+  .section .activity .contentwithoutlink, .section .activity .activityinstance{
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+.formataulasiconlink{
+  display: flex !important;
+  text-indent: 0 !important;
+  padding-left: 0 !important;
+}
+
+.formataulasiconspan{
+  padding: 5px;
+}
+.section .activity .actions {
+  top: 40% !important;
+}
+
+.aulas-btn-start-modules{
+  padding: 0.2rem 1.5rem;
+  border: 1px solid #fff;
+  width: fit-content;
+  color: #fff;
+  z-index: 1;
+}

@@ -1,0 +1,145 @@
+version: "3.8"
+
+services:
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: aulas_valle_mailhog
+    restart: always
+    logging:
+      driver: 'none'
+    ports:
+      - 8025:8025
+    networks:
+      - aulas-steam-net
+  
+  keycloak:
+    image: docker.io/bitnami/keycloak:20
+    container_name: aulas_valle_keycloak
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      KEYCLOAK_CREATE_ADMIN_USER: true
+      KEYCLOAK_ADMIN_USER: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
+      KEYCLOAK_MANAGEMENT_USER: manager
+      KEYCLOAK_MANAGEMENT_PASSWORD: password
+
+      KEYCLOAK_DATABASE_VENDOR: POSTGRES
+      KEYCLOAK_DATABASE_HOST: host.docker.internal
+      KEYCLOAK_DATABASE_PORT: 5432
+      KEYCLOAK_DATABASE_NAME: keycloak
+      KEYCLOAK_DATABASE_USER: bilinguismo_db_user
+      KEYCLOAK_DATABASE_PASSWORD: Bilinguismo2022*
+      KEYCLOAK_DATABASE_SCHEMA: public
+
+      KEYCLOAK_HTTP_PORT: 8080
+      KEYCLOAK_HTTPS_PORT: 8443
+
+      KEYCLOAK_BIND_ADDRESS: 0.0.0.0
+      KEYCLOAK_ENABLE_STATISTICS: true
+      KEYCLOAK_PRODUCTION: false
+      KC_HTTP_RELATIVE_PATH: "/auth"
+      KEYCLOAK_EXTRA_ARGS: "--import-realm"
+
+      KEYCLOAK_LOG_LEVEL: INFO
+      THEME_NAME: aulas_steam_balboa
+    ports:
+      - 8080:8080
+      - 8443:8443
+    volumes:
+      - ./keycloak/config:/opt/bitnami/keycloak/data/import
+      - ./keycloak/theme:/opt/bitnami/keycloak/providers
+    depends_on:
+      - mailhog
+    networks:
+      - aulas-steam-net
+
+  backend:
+    image: bilinguismotalentum/backend:1.2.8
+    container_name: aulas_steam_reporter_backend
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      JWKS_URI: http://tumlab.local:8080/auth/realms/bilinguismovalle/protocol/openid-connect/certs
+      DB_HOST: host.docker.internal
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: "Tumlab2022*"
+      DB_DATABASE: simat_db
+      KEYCLOAK_DB_HOST: host.docker.internal
+      KEYCLOAK_DB_PORT: 5432
+      KEYCLOAK_DB_USER: keycloak
+      KEYCLOAK_DB_NAME: keycloak
+      KEYCLOAK_DB_PASSWORD: "Bilinguismo222*"
+      KEYCLOAK_API_URL: /admin/realms/bilinguismovalle
+      KEYCLOAK_BASE_URL: http://aulasquindio.local:8080/auth
+      KEYCLOAK_CLIENT_ID: client-api
+      KEYCLOAK_CLIENT_SECRET: JNbF4R1FXMJhYVUuZHDNRYUfatfuBH8D
+      KEYCLOAK_GET_TOKEN_URL: /realms/bilinguismovalle/protocol/openid-connect/token
+      OVERRIDE_DB_HOST: host.docker.internal
+      OVERRIDE_DB_PASSWORD: "Tumlab2022*"
+      OVERRIDE_DB_PORT: 3306
+      OVERRIDE_DB_USER: root
+
+    ports:
+      - "4000:4000"
+    depends_on:
+      - keycloak
+    networks:
+      - aulas-steam-net
+
+  frontend:
+    image: bilinguismotalentum/frontend:1.1.11
+    container_name: bilng_valle_reporter_frontend
+    restart: always
+    environment:
+      KEYCLOAK_CLIENT_ID: si-frontend
+      KEYCLOAK_CLIENT_SECRET: 616a597f-2af2-409d-bbd6-f5a0787d90d7
+      KEYCLOAK_HOST: http://tumlab.local:8080/auth
+      KEYCLOAK_REALM: bilinguismovalle
+      NEXT_PUBLIC_DEFAULT_AUTH_PROVIDER: keycloak
+      NEXT_PUBLIC_BACKEND: http://tumlab.local:4000
+      NEXTAUTH_URL: http://tumlab.local:3000
+      NEXT_PUBLIC_DATABASE_KEY_NAME: bilinguismo_db
+      NEXT_PUBLIC_URL_DATA_SYNC: https://sync.bilinguismovalle.com.co/data
+    ports: 
+      - "3000:3000"
+    depends_on:
+      - backend
+      - keycloak
+    networks:
+      - aulas-steam-net
+
+  moodle:
+    image: docker.io/bitnami/moodle:4
+    container_name: aulas_valle_moodle
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      MOODLE_DATABASE_TYPE: mysqli
+      MOODLE_DATABASE_HOST: host.docker.internal
+      MOODLE_DATABASE_PORT_NUMBER: 3306
+      MOODLE_DATABASE_USER: bilinguismo-db-user
+      MOODLE_DATABASE_PASSWORD: Bilinguismo2022*
+      MOODLE_DATABASE_NAME: moodle_db
+      MOODLE_SKIP_BOOTSTRAP: true
+    ports:
+      - '5000:8080'
+      - '443:8443'
+    networks:
+      - aulas-steam-net
+    volumes:
+      - './moodle/moodle_data:/bitnami/moodle'
+      - 'moodledata_data:/bitnami/moodledata'
+    
+volumes:
+  moodledata_data:
+    driver: local
+
+networks:
+  aulas-steam-net:
+    driver: bridge
