@@ -44,7 +44,7 @@ services:
       KEYCLOAK_EXTRA_ARGS: "--import-realm"
 
       KEYCLOAK_LOG_LEVEL: INFO
-      THEME_NAME: aulas_steam_balboa
+      THEME_NAME: bilinguismovalle
     ports:
       - 8080:8080
       - 8443:8443
@@ -66,8 +66,8 @@ services:
       JWKS_URI: http://tumlab.local:8080/auth/realms/bilinguismovalle/protocol/openid-connect/certs
       DB_HOST: host.docker.internal
       DB_PORT: 3306
-      DB_USER: root
-      DB_PASSWORD: "Tumlab2022*"
+      DB_USER: bilinguismo-db-user
+      DB_PASSWORD: "Bilinguismo2022*"
       DB_DATABASE: simat_db
       KEYCLOAK_DB_HOST: host.docker.internal
       KEYCLOAK_DB_PORT: 5432
@@ -80,9 +80,9 @@ services:
       KEYCLOAK_CLIENT_SECRET: JNbF4R1FXMJhYVUuZHDNRYUfatfuBH8D
       KEYCLOAK_GET_TOKEN_URL: /realms/bilinguismovalle/protocol/openid-connect/token
       OVERRIDE_DB_HOST: host.docker.internal
-      OVERRIDE_DB_PASSWORD: "Tumlab2022*"
+      OVERRIDE_DB_PASSWORD: "Bilinguismo2022*"
       OVERRIDE_DB_PORT: 3306
-      OVERRIDE_DB_USER: root
+      OVERRIDE_DB_USER: bilinguismo-db-user
 
     ports:
       - "4000:4000"
@@ -129,7 +129,7 @@ services:
       MOODLE_SKIP_BOOTSTRAP: true
     ports:
       - '5000:8080'
-      - '443:8443'
+      # - '443:8443'
     networks:
       - aulas-steam-net
     volumes:
