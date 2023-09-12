@@ -114,7 +114,7 @@ services:
       - aulas-steam-net
 
   moodle:
-    image: docker.io/bitnami/moodle:4
+    image: bilinguismotalentum/php74-apache2:1.0.0
     container_name: aulas_valle_moodle
     restart: always
     extra_hosts:
@@ -128,13 +128,13 @@ services:
       MOODLE_DATABASE_NAME: moodle_db
       MOODLE_SKIP_BOOTSTRAP: true
     ports:
-      - '5000:8080'
+      - '5000:80'
       # - '443:8443'
     networks:
       - aulas-steam-net
     volumes:
-      - '/tumlab/apps/moodle/moodle:/bitnami/moodle'
-      - '/tumlab/apps/moodle/moodledata:/bitnami/moodledata'
+      - '/apps/moodle/moodledata:/var/www/moodledata'
+      - '/apps/moodle/moodle:/var/www/html'
     
 # volumes:
 #   moodledata_data:
