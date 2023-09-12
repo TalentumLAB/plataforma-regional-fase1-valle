@@ -128,7 +128,7 @@ services:
       MOODLE_DATABASE_NAME: moodle_db
       MOODLE_SKIP_BOOTSTRAP: true
     ports:
-      - '80:5000'
+      - '5000:80'
       # - '443:8443'
     networks:
       - aulas-steam-net
