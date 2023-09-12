@@ -128,13 +128,13 @@ services:
       MOODLE_DATABASE_NAME: moodle_db
       MOODLE_SKIP_BOOTSTRAP: true
     ports:
-      - '5000:80'
+      - '80:5000'
       # - '443:8443'
     networks:
       - aulas-steam-net
     volumes:
-      - '/apps/moodle/moodledata:/var/www/moodledata'
-      - '/apps/moodle/moodle:/var/www/html'
+      - '/tumlab/apps/moodle/moodledata:/var/www/moodledata'
+      - '/tumlab/apps/moodle/moodle:/var/www/html'
     
 # volumes:
 #   moodledata_data:
