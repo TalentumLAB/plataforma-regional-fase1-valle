@@ -73,9 +73,9 @@ services:
       KEYCLOAK_DB_PORT: 5432
       KEYCLOAK_DB_USER: bilinguismo_db_user
       KEYCLOAK_DB_NAME: keycloak
-      KEYCLOAK_DB_PASSWORD: Bilinguismo222*
+      KEYCLOAK_DB_PASSWORD: Bilinguismo2022*
       KEYCLOAK_API_URL: /admin/realms/bilinguismovalle
-      KEYCLOAK_BASE_URL: http://aulasquindio.local:8080/auth
+      KEYCLOAK_BASE_URL: http://tumlab.local:8080/auth
       KEYCLOAK_CLIENT_ID: client-api
       KEYCLOAK_CLIENT_SECRET: JNbF4R1FXMJhYVUuZHDNRYUfatfuBH8D
       KEYCLOAK_GET_TOKEN_URL: /realms/bilinguismovalle/protocol/openid-connect/token
