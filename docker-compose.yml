@@ -97,6 +97,9 @@ services:
     image: bilinguismotalentum/frontend:1.0.0-bilinguismo-valle
     container_name: bilng_valle_reporter_frontend
     restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      - "tumlab.local:192.168.4.1"
     environment:
       KEYCLOAK_CLIENT_ID: si-frontend
       KEYCLOAK_CLIENT_SECRET: 616a597f-2af2-409d-bbd6-f5a0787d90d7
