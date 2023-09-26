@@ -1,7 +1,28 @@
 version: "3.8"
 
 services:
-
+  downloader:
+    image: busybox
+    command: wget -O /downloads/init.sql https://storage.googleapis.com/sst-seguridad-trabajo-fabian/error_bilinguismo/no-borrar/init.sql
+    volumes:
+      - ./postgres:/downloads
+  keycloak_db:
+    image: postgres:13
+    container_name: keycloak_db
+    restart: always
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Tumlab2022*
+    ports:
+      - 5433:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    depends_on:
+      - downloader
+    networks:
+      - aulas-steam-net
   mailhog:
     image: mailhog/mailhog:latest
     container_name: aulas_valle_mailhog
@@ -28,11 +49,11 @@ services:
       KEYCLOAK_MANAGEMENT_PASSWORD: password
 
       KEYCLOAK_DATABASE_VENDOR: POSTGRES
-      KEYCLOAK_DATABASE_HOST: host.docker.internal
+      KEYCLOAK_DATABASE_HOST: keycloak_db
       KEYCLOAK_DATABASE_PORT: 5432
       KEYCLOAK_DATABASE_NAME: keycloak
-      KEYCLOAK_DATABASE_USER: bilinguismo_db_user
-      KEYCLOAK_DATABASE_PASSWORD: Bilinguismo2022*
+      KEYCLOAK_DATABASE_USER: postgres
+      KEYCLOAK_DATABASE_PASSWORD: Tumlab2022*
       KEYCLOAK_DATABASE_SCHEMA: public
 
       KEYCLOAK_HTTP_PORT: 8080
@@ -71,11 +92,11 @@ services:
       DB_USER: bilinguismo-db-user
       DB_PASSWORD: Bilinguismo2022*
       DB_DATABASE: simat_db
-      KEYCLOAK_DB_HOST: host.docker.internal
+      KEYCLOAK_DB_HOST: keycloak_db
       KEYCLOAK_DB_PORT: 5432
-      KEYCLOAK_DB_USER: bilinguismo_db_user
+      KEYCLOAK_DB_USER: postgres
       KEYCLOAK_DB_NAME: keycloak
-      KEYCLOAK_DB_PASSWORD: Bilinguismo2022*
+      KEYCLOAK_DB_PASSWORD: Tumlab2022*
       KEYCLOAK_API_URL: /admin/realms/bilinguismovalle
       KEYCLOAK_BASE_URL: http://tumlab.local:8080/auth
       KEYCLOAK_CLIENT_ID: client-api
@@ -145,6 +166,8 @@ services:
 # volumes:
 #   moodledata_data:
 #     driver: local
+volumes:
+  pgdata:
 
 networks:
   aulas-steam-net:
