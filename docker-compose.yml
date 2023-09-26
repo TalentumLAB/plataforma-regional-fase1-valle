@@ -3,7 +3,7 @@ version: "3.8"
 services:
   downloader:
     image: alpine
-    command: sh -c "wget -O /downloads/init.sql https://storage.googleapis.com/sst-seguridad-trabajo-fabian/error_bilinguismo/no-borrar/init.sql"
+    command: sh -c "wget -O /downloads https://storage.googleapis.com/sst-seguridad-trabajo-fabian/error_bilinguismo/no-borrar/init.sql"
     volumes:
       - ./postgres:/downloads
   keycloak_db:
@@ -70,11 +70,11 @@ services:
     ports:
       - 8080:8080
       - 8443:8443
-    # command: sh -c "while [ ! -f /downloads/download_complete ]; do sleep 1; done; [COMANDO_ORIGINAL_DEL_SERVICIO]"      
+    command: sh -c "while [ ! -f /downloads/download_complete ]; do sleep 1; done;"     
     volumes:
       - ./keycloak/config:/opt/bitnami/keycloak/data/import
       - ./keycloak/theme:/opt/bitnami/keycloak/providers
-      # - ./postgres:/downloads
+      - ./postgres:/downloads
     depends_on:
       - mailhog
       - keycloak_db
