@@ -3,7 +3,7 @@ version: "3.8"
 services:
   downloader:
     image: busybox
-    command: wget -O /downloads https://storage.googleapis.com/sst-seguridad-trabajo-fabian/error_bilinguismo/no-borrar/init.sql
+    command: wget -O /downloads/init.sql https://storage.googleapis.com/sst-seguridad-trabajo-fabian/error_bilinguismo/no-borrar/init.sql
     volumes:
       - ./postgres:/downloads
   keycloak_db:
@@ -20,7 +20,7 @@ services:
     volumes:
       - ./postgres:/downloads
       - pgdata:/var/lib/postgresql/data
-      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgres/:/docker-entrypoint-initdb.d/
     depends_on:
       - downloader
     networks:
