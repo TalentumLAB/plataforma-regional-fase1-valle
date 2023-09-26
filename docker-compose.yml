@@ -14,9 +14,11 @@ services:
       POSTGRES_DB: keycloak
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Tumlab2022*
+    command: sh -c "while [ ! -f /downloads/download_complete ]; do sleep 1; done;"     
     ports:
       - 5433:5432
     volumes:
+      - ./postgres:/downloads
       - pgdata:/var/lib/postgresql/data
       - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     depends_on:
