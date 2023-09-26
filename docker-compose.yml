@@ -3,7 +3,7 @@ version: "3.8"
 services:
   downloader:
     image: busybox
-    command: wget -O /downloads/init.sql https://storage.googleapis.com/sst-seguridad-trabajo-fabian/error_bilinguismo/no-borrar/init.sql
+    command: wget -O /downloads https://storage.googleapis.com/sst-seguridad-trabajo-fabian/error_bilinguismo/no-borrar/init.sql
     volumes:
       - ./postgres:/downloads
   keycloak_db:
