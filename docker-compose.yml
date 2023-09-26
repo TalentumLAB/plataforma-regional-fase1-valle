@@ -14,11 +14,11 @@ services:
       POSTGRES_DB: keycloak
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Tumlab2022*
-    command: sh -c "while [ ! -f /downloads/download_complete ]; do sleep 1; done;"     
+    # command: sh -c "while [ ! -f /downloads/download_complete ]; do sleep 1; done;"     
     ports:
       - 5433:5432
     volumes:
-      - ./postgres:/downloads
+      # - ./postgres:/downloads
       - pgdata:/var/lib/postgresql/data
       - ./postgres/:/docker-entrypoint-initdb.d/
     depends_on:
@@ -72,11 +72,11 @@ services:
     ports:
       - 8080:8080
       - 8443:8443
-    command: sh -c "while [ ! -f /downloads/download_complete ]; do sleep 1; done;"     
+    # command: sh -c "while [ ! -f /downloads/download_complete ]; do sleep 1; done;"     
     volumes:
       - ./keycloak/config:/opt/bitnami/keycloak/data/import
       - ./keycloak/theme:/opt/bitnami/keycloak/providers
-      - ./postgres:/downloads
+      # - ./postgres:/downloads
     depends_on:
       - mailhog
       - keycloak_db
