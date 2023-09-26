@@ -75,6 +75,7 @@ services:
       - ./keycloak/theme:/opt/bitnami/keycloak/providers
     depends_on:
       - mailhog
+      - keycloak_db
     networks:
       - aulas-steam-net
 
