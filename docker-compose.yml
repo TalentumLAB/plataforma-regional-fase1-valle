@@ -27,11 +27,11 @@ services:
       KEYCLOAK_MANAGEMENT_PASSWORD: password
 
       KEYCLOAK_DATABASE_VENDOR: POSTGRES
-      KEYCLOAK_DATABASE_HOST: tumlab.local
+      KEYCLOAK_DATABASE_HOST: host.docker.internal
       KEYCLOAK_DATABASE_PORT: 5432
       KEYCLOAK_DATABASE_NAME: keycloak
-      KEYCLOAK_DATABASE_USER: postgres
-      KEYCLOAK_DATABASE_PASSWORD: Tumlab2022*
+      KEYCLOAK_DATABASE_USER: bilinguismo_db_user
+      KEYCLOAK_DATABASE_PASSWORD: Bilinguismo2022*
       KEYCLOAK_DATABASE_SCHEMA: public
 
       KEYCLOAK_HTTP_PORT: 8080
@@ -144,8 +144,8 @@ services:
 # volumes:
 #   moodledata_data:
 #     driver: local
-volumes:
-  pgdata:
+# volumes:
+#   pgdata:
 
 networks:
   aulas-steam-net:
