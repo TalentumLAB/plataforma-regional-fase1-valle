@@ -1,33 +1,9 @@
 version: "3.8"
 
 services:
-  downloader:
-    image: busybox
-    command: wget -O /downloads/init.sql https://storage.googleapis.com/sst-seguridad-trabajo-fabian/error_bilinguismo/no-borrar/init.sql
-    volumes:
-      - ./postgres:/downloads
-  keycloak_db:
-    image: postgres:13
-    container_name: keycloak_db
-    restart: always
-    environment:
-      POSTGRES_DB: keycloak
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Tumlab2022*
-    # command: sh -c "while [ ! -f /downloads/download_complete ]; do sleep 1; done;"     
-    ports:
-      - 5433:5432
-    volumes:
-      # - ./postgres:/downloads
-      - pgdata:/var/lib/postgresql/data
-      - ./postgres/:/docker-entrypoint-initdb.d/
-    depends_on:
-      - downloader
-    networks:
-      - aulas-steam-net
   mailhog:
     image: mailhog/mailhog:latest
-    container_name: aulas_valle_mailhog
+    container_name: mailhog
     restart: always
     logging:
       driver: 'none'
@@ -51,7 +27,7 @@ services:
       KEYCLOAK_MANAGEMENT_PASSWORD: password
 
       KEYCLOAK_DATABASE_VENDOR: POSTGRES
-      KEYCLOAK_DATABASE_HOST: keycloak_db
+      KEYCLOAK_DATABASE_HOST: host.docker.internal
       KEYCLOAK_DATABASE_PORT: 5432
       KEYCLOAK_DATABASE_NAME: keycloak
       KEYCLOAK_DATABASE_USER: postgres
@@ -68,18 +44,15 @@ services:
       KEYCLOAK_EXTRA_ARGS: "--import-realm"
 
       KEYCLOAK_LOG_LEVEL: INFO
-      THEME_NAME: bilinguismovalle
+      THEME_NAME: aulasregional
     ports:
       - 8080:8080
       - 8443:8443
-    # command: sh -c "while [ ! -f /downloads/download_complete ]; do sleep 1; done;"     
     volumes:
       - ./keycloak/config:/opt/bitnami/keycloak/data/import
       - ./keycloak/theme:/opt/bitnami/keycloak/providers
-      # - ./postgres:/downloads
     depends_on:
       - mailhog
-      - keycloak_db
     networks:
       - aulas-steam-net
 
@@ -91,26 +64,26 @@ services:
       - "host.docker.internal:host-gateway"
       - "tumlab.local:192.168.4.1"
     environment:
-      JWKS_URI: http://tumlab.local:8080/auth/realms/bilinguismovalle/protocol/openid-connect/certs
+      JWKS_URI: http://tumlab.local:8080/auth/realms/aulasregional/protocol/openid-connect/certs
       DB_HOST: host.docker.internal
       DB_PORT: 3306
-      DB_USER: bilinguismo-db-user
-      DB_PASSWORD: Bilinguismo2022*
+      DB_USER: root
+      DB_PASSWORD: Tumlab2022*
       DB_DATABASE: simat_db
-      KEYCLOAK_DB_HOST: keycloak_db
+      KEYCLOAK_DB_HOST: host.docker.internal
       KEYCLOAK_DB_PORT: 5432
       KEYCLOAK_DB_USER: postgres
       KEYCLOAK_DB_NAME: keycloak
       KEYCLOAK_DB_PASSWORD: Tumlab2022*
-      KEYCLOAK_API_URL: /admin/realms/bilinguismovalle
+      KEYCLOAK_API_URL: /admin/realms/aulasregional
       KEYCLOAK_BASE_URL: http://tumlab.local:8080/auth
       KEYCLOAK_CLIENT_ID: client-api
       KEYCLOAK_CLIENT_SECRET: JNbF4R1FXMJhYVUuZHDNRYUfatfuBH8D
-      KEYCLOAK_GET_TOKEN_URL: /realms/bilinguismovalle/protocol/openid-connect/token
+      KEYCLOAK_GET_TOKEN_URL: /realms/aulasregional/protocol/openid-connect/token
       OVERRIDE_DB_HOST: host.docker.internal
-      OVERRIDE_DB_PASSWORD: Bilinguismo2022*
+      OVERRIDE_DB_PASSWORD: Tumlab2022*
       OVERRIDE_DB_PORT: 3306
-      OVERRIDE_DB_USER: bilinguismo-db-user
+      OVERRIDE_DB_USER: root
 
     ports:
       - "4000:4000"
@@ -130,12 +103,12 @@ services:
       KEYCLOAK_CLIENT_ID: si-frontend
       KEYCLOAK_CLIENT_SECRET: 616a597f-2af2-409d-bbd6-f5a0787d90d7
       KEYCLOAK_HOST: http://tumlab.local:8080/auth
-      KEYCLOAK_REALM: bilinguismovalle
+      KEYCLOAK_REALM: aulasregional
       NEXT_PUBLIC_DEFAULT_AUTH_PROVIDER: keycloak
       NEXT_PUBLIC_BACKEND: http://tumlab.local:4000
       NEXTAUTH_URL: http://tumlab.local:3000
       NEXT_PUBLIC_DATABASE_KEY_NAME: bilinguismo_db
-      NEXT_PUBLIC_URL_DATA_SYNC: https://sync.bilinguismovalle.com.co/data
+      NEXT_PUBLIC_URL_DATA_SYNC: https://sync.aulasregional.com.co/data
     ports: 
       - "3000:3000"
     depends_on:
@@ -155,8 +128,8 @@ services:
       MOODLE_DATABASE_TYPE: mysqli
       MOODLE_DATABASE_HOST: host.docker.internal
       MOODLE_DATABASE_PORT_NUMBER: 3306
-      MOODLE_DATABASE_USER: bilinguismo-db-user
-      MOODLE_DATABASE_PASSWORD: Bilinguismo2022*
+      MOODLE_DATABASE_USER: root
+      MOODLE_DATABASE_PASSWORD: Tumlab2022*
       MOODLE_DATABASE_NAME: moodle_db
       MOODLE_SKIP_BOOTSTRAP: true
     ports:
