@@ -26,7 +26,7 @@ services:
       KEYCLOAK_MANAGEMENT_USER: manager
       KEYCLOAK_MANAGEMENT_PASSWORD: password
 
-      KEYCLOAK_DATABASE_VENDOR: POSTGRES
+      #KEYCLOAK_DATABASE_VENDOR: POSTGRES
       KEYCLOAK_DATABASE_HOST: host.docker.internal
       KEYCLOAK_DATABASE_PORT: 5432
       KEYCLOAK_DATABASE_NAME: keycloak
@@ -78,7 +78,7 @@ services:
       KEYCLOAK_API_URL: /admin/realms/aulasregional
       KEYCLOAK_BASE_URL: http://tumlab.local:8080/auth
       KEYCLOAK_CLIENT_ID: client-api
-      KEYCLOAK_CLIENT_SECRET: JNbF4R1FXMJhYVUuZHDNRYUfatfuBH8D
+      KEYCLOAK_CLIENT_SECRET: xO3iPvLUatj4psBZ65cWZNBO4Cy1IPfh
       KEYCLOAK_GET_TOKEN_URL: /realms/aulasregional/protocol/openid-connect/token
       OVERRIDE_DB_HOST: host.docker.internal
       OVERRIDE_DB_PASSWORD: Tumlab2022*
@@ -118,7 +118,7 @@ services:
       - aulas-steam-net
 
   moodle:
-    image: bilinguismotalentum/php74-apache2:1.0.0
+    image: bilinguismotalentum/php74-apache2:1.0.1
     container_name: aulas_valle_moodle
     restart: always
     extra_hosts:
