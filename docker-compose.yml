@@ -100,7 +100,7 @@ services:
       - "host.docker.internal:host-gateway"
       - "tumlab.local:192.168.4.1"
     environment:
-      KEYCLOAK_CLIENT_ID: si-frontend
+      KEYCLOAK_CLIENT_ID: sireporterfrontend
       KEYCLOAK_CLIENT_SECRET: CZdAn60OXtkdfHsyQAc5q4fDC5tYC9Dq
       KEYCLOAK_HOST: http://tumlab.local:8080/auth
       KEYCLOAK_REALM: aulassteamregional
