@@ -30,8 +30,8 @@ services:
       KEYCLOAK_DATABASE_HOST: host.docker.internal
       KEYCLOAK_DATABASE_PORT: 5432
       KEYCLOAK_DATABASE_NAME: keycloak
-      KEYCLOAK_DATABASE_USER: bilinguismo_db_user
-      KEYCLOAK_DATABASE_PASSWORD: Bilinguismo2022*
+      KEYCLOAK_DATABASE_USER: postgres
+      KEYCLOAK_DATABASE_PASSWORD: Tumlab2022*
       KEYCLOAK_DATABASE_SCHEMA: public
 
       KEYCLOAK_HTTP_PORT: 8080
@@ -41,7 +41,7 @@ services:
       KEYCLOAK_ENABLE_STATISTICS: true
       KEYCLOAK_PRODUCTION: false
       KC_HTTP_RELATIVE_PATH: "/auth"
-      KEYCLOAK_EXTRA_ARGS: "--import-realm"
+      #KEYCLOAK_EXTRA_ARGS: "--import-realm"
 
       KEYCLOAK_LOG_LEVEL: INFO
       THEME_NAME: aulasregional
@@ -75,11 +75,11 @@ services:
       KEYCLOAK_DB_USER: postgres
       KEYCLOAK_DB_NAME: keycloak
       KEYCLOAK_DB_PASSWORD: Tumlab2022*
-      KEYCLOAK_API_URL: /admin/realms/aulasregional
+      KEYCLOAK_API_URL: /admin/realms/aulassteamregional
       KEYCLOAK_BASE_URL: http://tumlab.local:8080/auth
       KEYCLOAK_CLIENT_ID: client-api
-      KEYCLOAK_CLIENT_SECRET: xO3iPvLUatj4psBZ65cWZNBO4Cy1IPfh
-      KEYCLOAK_GET_TOKEN_URL: /realms/aulasregional/protocol/openid-connect/token
+      KEYCLOAK_CLIENT_SECRET: IzqX3IUCmGSvHl6DVhcPjoj3aJNdbeYY
+      KEYCLOAK_GET_TOKEN_URL: /realms/aulassteamregional/protocol/openid-connect/token
       OVERRIDE_DB_HOST: host.docker.internal
       OVERRIDE_DB_PASSWORD: Tumlab2022*
       OVERRIDE_DB_PORT: 3306
@@ -101,9 +101,9 @@ services:
       - "tumlab.local:192.168.4.1"
     environment:
       KEYCLOAK_CLIENT_ID: si-frontend
-      KEYCLOAK_CLIENT_SECRET: 616a597f-2af2-409d-bbd6-f5a0787d90d7
+      KEYCLOAK_CLIENT_SECRET: CZdAn60OXtkdfHsyQAc5q4fDC5tYC9Dq
       KEYCLOAK_HOST: http://tumlab.local:8080/auth
-      KEYCLOAK_REALM: aulasregional
+      KEYCLOAK_REALM: aulassteamregional
       NEXT_PUBLIC_DEFAULT_AUTH_PROVIDER: keycloak
       NEXT_PUBLIC_BACKEND: http://tumlab.local:4000
       NEXTAUTH_URL: http://tumlab.local:3000
