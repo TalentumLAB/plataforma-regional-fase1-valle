@@ -1,4 +1,4 @@
-# lms - DESPLIEGUE CON DOCKER EN EL servidor
+# LMS - DESPLIEGUE CON DOCKER EN EL servidor
 
 ## Contenido
   * [Descripción](#descripcion)
