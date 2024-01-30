@@ -1,4 +1,4 @@
-# BILINGUISMO - DESPLIEGUE CON DOCKER EN EL TUMLAB
+# lms - DESPLIEGUE CON DOCKER EN EL servidor
 
 ## Contenido
   * [Descripción](#descripcion)
@@ -8,14 +8,14 @@
 <a name="descripcion"></a>
 ## Descripción
 
-Este proyecto contiene la información necesaria para desplegar la solucón de Bilinguismo en el Tumlab utilizando Docker. 
+Este proyecto contiene la información necesaria para desplegar la solucón de lms en el servidor utilizando Docker. 
 
 ### Software utilizado:
 
-* Sistema operativo del Tumlab: Ubuntu server versión 20.04.05
+* Sistema operativo del servidor: Ubuntu server versión 20.04.05
 * Docker: Versión 20.10.21
 * Docker compose: Version 2.12.2
-* MySQL: Versión 8.0.31
+* MySQL: Versión 8.0.31 o mariadb 10
 * PostgreSQL: Version 13
 
 <a name="prerrequisitos"></a>
@@ -27,40 +27,40 @@ En el equipo deben estar los motores de base de datos PostgreSQl y MySql correct
 ### Credenciales de acceso
 Se deben solicitar las siguientes credenciales:
 
-* Credenciales de acceso por SSH al Tumlab.
+* Credenciales de acceso por SSH al servidor.
 * Credenciales de acceso a MySQL.
 * Credenciales de acceso a Postgres
 * Usuario en el Ubuntu server con privilegios de root.
 
-### Conexión al Tumlab mediante SSH
+### Conexión al servidor mediante SSH
 Para establecer la conexión puede utilizar el software PuTTY que puede descargar dando clic [aquí.][putty]
 
 [putty]: https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
 
-### Conecta el Tumlab a Internet
-Conectar un cable de red con acceso a Internet en el purto LAN del Tumlab y verifique que tiene conexión a Internet.
+### Conecta el servidor a Internet
+Conectar un cable de red con acceso a Internet en el purto LAN del servidor y verifique que tiene conexión a Internet.
 
 <a name="despliegue"></a>
 ## Despliegue en Docker utilizando el docker-compose
 
 ### Clonar el proyecto:
 
-Si la carpeta /tumlab/repositories no existe, ejecute los siguientes comandos:
+Si la carpeta /servidor/repositories no existe, ejecute los siguientes comandos:
 
 ```bash
-    cd /tumlab
+    cd /servidor
     mkdir repositories
     cd repositories
-    git clone https://gitlab.com/bilinguismo/integration_tumlab.git
-    cd integration_tumlab/
+    git clone https://gitlab.com/lms/integration_servidor.git
+    cd integration_servidor/
 ```
 
-Si la carpeta /tumlab/repositories existe, ejecute los siguientes comandos:
+Si la carpeta /servidor/repositories existe, ejecute los siguientes comandos:
 
 ```bash
-    cd /tumlab/repositories
-    git clone https://gitlab.com/bilinguismo/integration_tumlab.git
-    cd integration_tumlab/
+    cd /servidor/repositories
+    git clone https://gitlab.com/lms/integration_servidor.git
+    cd integration_servidor/
 ```
 
 ### Creación de usuario y bases de datos en MySql:
@@ -77,14 +77,14 @@ Para crear las bases de datos y un usuario para accederla, se deben ejecutar los
 * Creación del usuario:
 
 ```bash
-    CREATE USER 'bilinguismo-db-user'@'%' IDENTIFIED BY 'Bilinguismo2022*';
+    CREATE USER 'lms-db-user'@'%' IDENTIFIED BY 'lms2022*';
 ```
 
-* Creación y asignación de permisos sobre la base de datos bilinguismo_db:
+* Creación y asignación de permisos sobre la base de datos lms_db:
 
 ```bash
-    CREATE DATABASE bilinguismo_db;
-    GRANT ALL PRIVILEGES ON bilinguismo_db.* TO 'bilinguismo-db-user'@'%';
+    CREATE DATABASE lms_db;
+    GRANT ALL PRIVILEGES ON lms_db.* TO 'lms-db-user'@'%';
     FLUSH PRIVILEGES;
 ```
 
@@ -92,7 +92,7 @@ Para crear las bases de datos y un usuario para accederla, se deben ejecutar los
 
 ```bash
     CREATE DATABASE moodle_db;
-    GRANT ALL PRIVILEGES ON moodle_db.* TO 'bilinguismo-db-user'@'%';
+    GRANT ALL PRIVILEGES ON moodle_db.* TO 'lms-db-user'@'%';
     FLUSH PRIVILEGES;
     Exit;
 ```
@@ -101,10 +101,10 @@ Para crear las bases de datos y un usuario para accederla, se deben ejecutar los
 
 Para cargar la información en las bases de datos creadas en el paso anterior, se deben ejecutar los siguientes comandos:
 
-* Base de datos bilinguismo_db:
+* Base de datos lms_db:
 
 ```bash
-    mysql -u root -p bilinguismo_db < databases/prod/backend_db.sql
+    mysql -u root -p lms_db < databases/prod/backend_db.sql
 ```
 
 * Base de datos moodle_db:
@@ -127,14 +127,14 @@ Para crear la base de datos y un usuario para accederla, se deben ejecutar los s
 * Creación del usuario:
 
 ```bash
-    CREATE USER bilinguismo_db_user with encrypted password 'Bilinguismo2022*';
+    CREATE USER lms_db_user with encrypted password 'lms2022*';
 ```
 
-* Creación y asignación de permisos sobre la base de datos bilinguismo_db:
+* Creación y asignación de permisos sobre la base de datos lms_db:
 
 ```bash
     CREATE DATABASE keycloak;
-    GRANT ALL PRIVILEGES ON DATABASE keycloak to bilinguismo_db_user;
+    GRANT ALL PRIVILEGES ON DATABASE keycloak to lms_db_user;
 ```
 
 ### Despliegue de la solución
@@ -142,5 +142,5 @@ Para crear la base de datos y un usuario para accederla, se deben ejecutar los s
 Para el despliegue de la solución se deben ejecutar el siguiente comando:
 
 ```bash
-    docker-compose -p "bilinguismo" up
+    docker-compose -p "lms" up
 ```
