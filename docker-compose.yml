@@ -1,6 +1,24 @@
 version: "3.8"
 
 services:
+  keycloak_db:
+    image: postgres:13
+    container_name: keycloak_db
+    restart: always
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./databases/postgres/:/docker-entrypoint-initdb.d/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - aulas-steam-net
   mailhog:
     image: mailhog/mailhog:latest
     container_name: mailhog
@@ -11,14 +29,46 @@ services:
       - 8025:8025
     networks:
       - aulas-steam-net
-  
+
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: always
+    command: --bind-address=0.0.0.0 --max-allowed-packet=128M --innodb-file-per-table=1
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: simat_db
+    expose:
+      - "3306"
+    volumes:
+      - mariadb1:/var/lib/mysql
+      - ./databases/simat:/docker-entrypoint-initdb.d
+    networks:
+      - aulas-steam-net
+    
+  mariadb2:
+    image: mariadb:latest
+    container_name: mariadb2
+    restart: always
+    command: --bind-address=0.0.0.0 --max-allowed-packet=128M --innodb-file-per-table=1
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: moodle_db
+    expose:
+      - "3306"
+    volumes:
+      - mariadb2:/var/lib/mysql
+      - ./databases/moodle:/docker-entrypoint-initdb.d
+    networks:
+      - aulas-steam-net
+
   keycloak:
     image: docker.io/bitnami/keycloak:20
-    container_name: aulas_valle_keycloak
+    container_name: aulas_keycloak
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
-      - "tumlab.local:192.168.4.1"
+      - "steam.narino.gov.co:host-gateway"
     environment:
       KEYCLOAK_CREATE_ADMIN_USER: true
       KEYCLOAK_ADMIN_USER: admin
@@ -26,33 +76,27 @@ services:
       KEYCLOAK_MANAGEMENT_USER: manager
       KEYCLOAK_MANAGEMENT_PASSWORD: password
 
-      #KEYCLOAK_DATABASE_VENDOR: POSTGRES
-      KEYCLOAK_DATABASE_HOST: host.docker.internal
+      KEYCLOAK_DATABASE_HOST: keycloak_db
       KEYCLOAK_DATABASE_PORT: 5432
       KEYCLOAK_DATABASE_NAME: keycloak
       KEYCLOAK_DATABASE_USER: postgres
-      KEYCLOAK_DATABASE_PASSWORD: Tumlab2022*
+      KEYCLOAK_DATABASE_PASSWORD: postgres
       KEYCLOAK_DATABASE_SCHEMA: public
-
       KEYCLOAK_HTTP_PORT: 8080
-      KEYCLOAK_HTTPS_PORT: 8443
-
       KEYCLOAK_BIND_ADDRESS: 0.0.0.0
       KEYCLOAK_ENABLE_STATISTICS: true
       KEYCLOAK_PRODUCTION: false
       KC_HTTP_RELATIVE_PATH: "/auth"
-      #KEYCLOAK_EXTRA_ARGS: "--import-realm"
-
       KEYCLOAK_LOG_LEVEL: INFO
       THEME_NAME: aulasregional
     ports:
       - 8080:8080
-      - 8443:8443
     volumes:
       - ./keycloak/config:/opt/bitnami/keycloak/data/import
       - ./keycloak/theme:/opt/bitnami/keycloak/providers
     depends_on:
-      - mailhog
+      keycloak_db:
+        condition: service_healthy
     networks:
       - aulas-steam-net
 
@@ -62,26 +106,26 @@ services:
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
-      - "tumlab.local:192.168.4.1"
+      - "steam.narino.gov.co:host-gateway"
     environment:
-      JWKS_URI: http://tumlab.local:8080/auth/realms/aulasregional/protocol/openid-connect/certs
-      DB_HOST: host.docker.internal
+      JWKS_URI: http://steam.narino.gov.co:8080/auth/realms/aulasregional/protocol/openid-connect/certs
+      DB_HOST: mariadb
       DB_PORT: 3306
       DB_USER: root
-      DB_PASSWORD: Tumlab2022*
+      DB_PASSWORD: ""
       DB_DATABASE: simat_db
-      KEYCLOAK_DB_HOST: host.docker.internal
+      KEYCLOAK_DB_HOST: keycloak_db
       KEYCLOAK_DB_PORT: 5432
       KEYCLOAK_DB_USER: postgres
       KEYCLOAK_DB_NAME: keycloak
-      KEYCLOAK_DB_PASSWORD: Tumlab2022*
+      KEYCLOAK_DB_PASSWORD: postgres
       KEYCLOAK_API_URL: /admin/realms/aulassteamregional
-      KEYCLOAK_BASE_URL: http://tumlab.local:8080/auth
+      KEYCLOAK_BASE_URL: http://steam.narino.gov.co:8080/auth
       KEYCLOAK_CLIENT_ID: client-api
       KEYCLOAK_CLIENT_SECRET: IzqX3IUCmGSvHl6DVhcPjoj3aJNdbeYY
       KEYCLOAK_GET_TOKEN_URL: /realms/aulassteamregional/protocol/openid-connect/token
-      OVERRIDE_DB_HOST: host.docker.internal
-      OVERRIDE_DB_PASSWORD: Tumlab2022*
+      OVERRIDE_DB_HOST: mariadb
+      OVERRIDE_DB_PASSWORD: ""
       OVERRIDE_DB_PORT: 3306
       OVERRIDE_DB_USER: root
 
@@ -98,15 +142,15 @@ services:
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
-      - "tumlab.local:192.168.4.1"
+      - "steam.narino.gov.co:host-gateway"
     environment:
       KEYCLOAK_CLIENT_ID: sireporterfrontend
       KEYCLOAK_CLIENT_SECRET: CZdAn60OXtkdfHsyQAc5q4fDC5tYC9Dq
-      KEYCLOAK_HOST: http://tumlab.local:8080/auth
+      KEYCLOAK_HOST: http://steam.narino.gov.co:8080/auth
       KEYCLOAK_REALM: aulassteamregional
       NEXT_PUBLIC_DEFAULT_AUTH_PROVIDER: keycloak
-      NEXT_PUBLIC_BACKEND: http://tumlab.local:4000
-      NEXTAUTH_URL: http://tumlab.local:3000
+      NEXT_PUBLIC_BACKEND: http://steam.narino.gov.co:4000
+      NEXTAUTH_URL: http://steam.narino.gov.co:3000
       NEXT_PUBLIC_DATABASE_KEY_NAME: bilinguismo_db
       NEXT_PUBLIC_URL_DATA_SYNC: https://sync.aulasregional.com.co/data
     ports: 
@@ -119,33 +163,23 @@ services:
 
   moodle:
     image: bilinguismotalentum/php74-apache2:1.0.1
-    container_name: aulas_valle_moodle
+    container_name: aulas_moodle
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
-      - "tumlab.local:192.168.4.1"
-    environment:
-      MOODLE_DATABASE_TYPE: mysqli
-      MOODLE_DATABASE_HOST: host.docker.internal
-      MOODLE_DATABASE_PORT_NUMBER: 3306
-      MOODLE_DATABASE_USER: root
-      MOODLE_DATABASE_PASSWORD: Tumlab2022*
-      MOODLE_DATABASE_NAME: moodle_db
-      MOODLE_SKIP_BOOTSTRAP: true
+      - "steam.narino.gov.co:host-gateway"
     ports:
       - '5000:80'
-      # - '443:8443'
     networks:
       - aulas-steam-net
     volumes:
-      - '/tumlab/apps/moodle/moodledata:/var/www/moodledata'
-      - '/tumlab/apps/moodle/moodle:/var/www/html'
+      - './moodle/moodledata:/var/www/moodledata'
+      - './moodle/moodle:/var/www/html'
     
-# volumes:
-#   moodledata_data:
-#     driver: local
-# volumes:
-#   pgdata:
+volumes:
+  pgdata:
+  mariadb1:
+  mariadb2:
 
 networks:
   aulas-steam-net:

@@ -1,146 +1,125 @@
-# LMS - DESPLIEGUE CON DOCKER EN EL servidor
+Proyecto Aulas Steam
+====================
 
-## Contenido
-  * [Descripción](#descripcion)
-  * [Prerrequisitos](#prerrequisitos)
-  * [Despliegue en Docker utilizando el docker-compose](#despliegue)
+Contenido
+---------
 
-<a name="descripcion"></a>
-## Descripción
+*   [Requisitos](#requisitos)
+*   [Descripción](#descripcion)
+*   [Uso](#uso)
+    *   [Instrucciones](#instrucciones)
+*   [Docker-Compose](#docker-compose)
+    *   [Servicios](#servicios)
+    *   [Volúmenes](#volúmenes)
+    *   [Redes](#redes)
 
-Este proyecto contiene la información necesaria para desplegar la solucón de lms en el servidor utilizando Docker. 
+* * *
 
-### Software utilizado:
+Requisitos
+----------
 
-* Sistema operativo del servidor: Ubuntu server versión 20.04.05
-* Docker: Versión 20.10.21
-* Docker compose: Version 2.12.2
-* MySQL: Versión 8.0.31 o mariadb 10
-* PostgreSQL: Version 13
+*   Docker version 19.03.8 o superior
+*   Docker Compose version v2.20 o superior
+*   git version 2.20.1 o superior
+*   zip version 3.0 o superir
+*   Carpetas de moodle y moodledata ubicadas en la carpeta moodle del repositorio
+*   Archivos de base de datos ubicados en la carpeta de databases
 
-<a name="prerrequisitos"></a>
-## Prerrequisitos
+Descripción
+-----------
 
-### Motores de bases de datos
-En el equipo deben estar los motores de base de datos PostgreSQl y MySql correctamente instalados y aceptando conexiones externas. 
+El proyecto Aulas Steam utiliza Docker Compose para orquestar varios servicios necesarios para ejecutar la solución. Estos servicios incluyen bases de datos como PostgreSQL y MariaDB, así como aplicaciones como Keycloak, un backend y un frontend.
 
-### Credenciales de acceso
-Se deben solicitar las siguientes credenciales:
+Uso
+---
 
-* Credenciales de acceso por SSH al servidor.
-* Credenciales de acceso a MySQL.
-* Credenciales de acceso a Postgres
-* Usuario en el Ubuntu server con privilegios de root.
+### Instrucciones
 
-### Conexión al servidor mediante SSH
-Para establecer la conexión puede utilizar el software PuTTY que puede descargar dando clic [aquí.][putty]
+1.  Crear carpeta para clonar el proyecto y navegar hacia la carpeta
+    ```
+    mkdir /repositories
 
-[putty]: https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+    cd /repositories
+    ```
+2.  Clonar este repositorio y navegar hacia la carpeta.
+    ```
+    git clone https://github.com/TalentumLAB/plataforma-regional-fase1-narino.git
 
-### Conecta el servidor a Internet
-Conectar un cable de red con acceso a Internet en el purto LAN del servidor y verifique que tiene conexión a Internet.
+    cd plataforma-regional-fase1-narino
+    ```
+3.  Descargar contenido del lms
+    ```
+    cd moodle
 
-<a name="despliegue"></a>
-## Despliegue en Docker utilizando el docker-compose
+    wget https://por_definir/moodle.zip
 
-### Clonar el proyecto:
+    wget https://por_definir/moodledata.zip
+    ```
 
-Si la carpeta /servidor/repositories no existe, ejecute los siguientes comandos:
+4. Asignar permisos a carpetas de lms
+    ```
+    chown -R www-data: moodle
+    chown -R www-data: moodledata
+    chmod -R 755 moodle
+    chmod -R 755 moodledata
+    ```
+5.  Descargar archivo .sql de la base de datos de moodle.
+    ```
+    cd databases/moodle
 
-```bash
-    cd /servidor
-    mkdir repositories
-    cd repositories
-    git clone https://github.com/TalentumLAB/lms_regional.git
-    cd lms_regional/
+    wget https://por_definir/moodledb.sql
+    ```
+6.  Regresar a directorio raiz y a ejecutar el archivo docker compose:
+    ```
+    docker-compose up -d
+    ```
+
+    Esto iniciará todos los servicios en segundo plano.
+
+7.  Acceder a las aplicaciones a través de los siguientes enlaces:
+
+*   Keycloak: [http://steam.narino.gov.co:8080](http://steam.narino.gov.co:8080)
+*   Backend: [http://steam.narino.gov.co:4000](http://steam.narino.gov.co:4000)
+*   Frontend: [http://steam.narino.gov.co:3000](http://steam.narino.gov.co:3000)
+*   Moodle: [http://steam.narino.gov.co:5000](http://steam.narino.gov.co:5000)
+*   Mailhog (para pruebas de correo): [http://steam.narino.gov.co:8025](http://steam.narino.gov.co:8025)
+
+8.  Probar los aplicativos
+
+    Para probar el sistema de informacion y el LMS se puede hacer con las siguientes credeciales:
+
+    *   Usuario: docenteprueba
+    *   Contraseña: password
+
+9.  Detener los servicios cuando se haya terminado:
+
+
+```
+docker-compose down
 ```
 
-Si la carpeta /servidor/repositories existe, ejecute los siguientes comandos:
+* * *
 
-```bash
-    cd /servidor/repositories
-    git clone https://gitlab.com/lms/integration_servidor.git
-    cd integration_servidor/
-```
+Docker-Compose
+--------------
 
-### Creación de usuario y bases de datos en MySql:
+### Servicios
 
-Para crear las bases de datos y un usuario para accederla, se deben ejecutar los siguientes comandos. En este punto es requerido el usuario de MySQL.  
+*   **keycloak\_db**: Base de datos PostgreSQL para Keycloak.
+*   **mailhog**: Herramienta de prueba para correos electrónicos.
+*   **mariadb**: Base de datos MariaDB para la aplicación.
+*   **mariadb2**: Otra instancia de MariaDB para una segunda base de datos.
+*   **keycloak**: Plataforma de gestión de identidad y acceso.
+*   **backend**: Backend de la aplicación Aulas Steam Reporter.
+*   **frontend**: Frontend de la aplicación Aulas Steam Reporter.
+*   **moodle**: Aplicación Moodle.
 
+### Volúmenes
 
-* Acceso a mysql: Reemplazar la palabra (nombre_usuario) por el usuario con privilegios de root que usará para conectarse a la base de datos MySql 
+*   **pgdata**: Volumen persistente para la base de datos PostgreSQL.
+*   **mariadb1**: Volumen persistente para la base de datos MariaDB (primera instancia).
+*   **mariadb2**: Volumen persistente para la base de datos MariaDB (segunda instancia).
 
-```bash
-    mysql -u nombre_usuario -p
-```
+### Redes
 
-* Creación del usuario:
-
-```bash
-    CREATE USER 'lms-db-user'@'%' IDENTIFIED BY 'lms2022*';
-```
-
-* Creación y asignación de permisos sobre la base de datos lms_db:
-
-```bash
-    CREATE DATABASE lms_db;
-    GRANT ALL PRIVILEGES ON lms_db.* TO 'lms-db-user'@'%';
-    FLUSH PRIVILEGES;
-```
-
-* Creación y asignación de permisos sobre la base de datos moodle_db:
-
-```bash
-    CREATE DATABASE moodle_db;
-    GRANT ALL PRIVILEGES ON moodle_db.* TO 'lms-db-user'@'%';
-    FLUSH PRIVILEGES;
-    Exit;
-```
-
-### Cargue de las bases de datos MySql
-
-Para cargar la información en las bases de datos creadas en el paso anterior, se deben ejecutar los siguientes comandos:
-
-* Base de datos lms_db:
-
-```bash
-    mysql -u root -p lms_db < databases/prod/backend_db.sql
-```
-
-* Base de datos moodle_db:
-
-```bash
-    mysql -u root -p moodle_db < databases/prod/moodle_db.sql
-```
-
-### Creación de usuario y base de datos en PostgreSQL:
-
-Para crear la base de datos y un usuario para accederla, se deben ejecutar los siguientes comandos. En este punto es requerido el usuario de PostgreSQL.  
-
-
-* Acceso a postgres:
-
-```bash
-    su postgres
-```
-
-* Creación del usuario:
-
-```bash
-    CREATE USER lms_db_user with encrypted password 'lms2022*';
-```
-
-* Creación y asignación de permisos sobre la base de datos lms_db:
-
-```bash
-    CREATE DATABASE keycloak;
-    GRANT ALL PRIVILEGES ON DATABASE keycloak to lms_db_user;
-```
-
-### Despliegue de la solución
-
-Para el despliegue de la solución se deben ejecutar el siguiente comando:
-
-```bash
-    docker-compose -p "lms" up
-```
+*   **aulas-steam-net**: Red de puente para la comunicación entre los servicios.
