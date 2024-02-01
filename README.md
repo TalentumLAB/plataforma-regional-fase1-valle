@@ -22,6 +22,7 @@ Requisitos
 *   Docker Compose version v2.20 o superior
 *   git version 2.20.1 o superior
 *   zip version 3.0 o superir
+*   wget version 1.20.1 o superior
 *   Carpetas de moodle y moodledata ubicadas en la carpeta moodle del repositorio
 *   Archivos de base de datos ubicados en la carpeta de databases
 
