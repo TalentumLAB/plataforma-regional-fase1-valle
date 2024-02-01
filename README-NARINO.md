@@ -1,6 +1,4 @@
 Proyecto Aulas Steam
-
-Proyecto Aulas Steam
 ====================
 
 Contenido
