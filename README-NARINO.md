@@ -18,7 +18,7 @@ Contenido
 Requisitos
 ----------
 
-El proyecto requiere que la persona interesada cuente con Docker y Docker Compose instalados en su sistema. Además, ten en cuenta que algunos archivos y carpetas pesados, como la carpeta Moodle, Moodledata, y archivos de base de datos, no están incluidos en el repositorio de Git debido a su tamaño considerable. Deberán ser proporcionados por otros medios.
+El proyecto requiere Docker y Docker Compose instalados en el sistema. Además, tener en cuenta que algunos archivos y carpetas pesados, como la carpeta Moodle, Moodledata, y archivos de base de datos, no están incluidos en el repositorio de Git debido a su tamaño considerable. Deberán ser proporcionados por otros medios.
 
 Descripción
 -----------
@@ -32,7 +32,9 @@ Uso
 
 1.  Se recomienda clonar este repositorio en la máquina local.
 2.  Navegar a la carpeta del proyecto.
-3.  Ejecutar el siguiente comando:
+3.  Copiar el contenido descomprimido de la carpeta moodle y moodledata en la carpeta moodle de este mismo repositorio y dar permisos de lectura escritura y ejecucion al usuario www-data.
+4.  Copiar el archivo .sal de la base de datos de moodle en la carpeta databases/moodle de este mismoo proyecto
+5.  Ejecutar el siguiente comando:
 
 ```
     docker-compose -f "docker-compose-narino.yml" up -d
