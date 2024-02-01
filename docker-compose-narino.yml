@@ -68,6 +68,7 @@ services:
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
+      - "steam.narino.gov.co:host-gateway"
     environment:
       KEYCLOAK_CREATE_ADMIN_USER: true
       KEYCLOAK_ADMIN_USER: admin
@@ -105,6 +106,7 @@ services:
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
+      - "steam.narino.gov.co:host-gateway"
     environment:
       JWKS_URI: http://steam.narino.gov.co:8080/auth/realms/aulasregional/protocol/openid-connect/certs
       DB_HOST: mariadb
@@ -140,6 +142,7 @@ services:
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
+      - "steam.narino.gov.co:host-gateway"
     environment:
       KEYCLOAK_CLIENT_ID: sireporterfrontend
       KEYCLOAK_CLIENT_SECRET: CZdAn60OXtkdfHsyQAc5q4fDC5tYC9Dq
@@ -164,6 +167,7 @@ services:
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
+      - "steam.narino.gov.co:host-gateway"
     ports:
       - '5000:80'
     networks:
