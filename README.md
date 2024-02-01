@@ -51,8 +51,8 @@ Si la carpeta /servidor/repositories no existe, ejecute los siguientes comandos:
     cd /servidor
     mkdir repositories
     cd repositories
-    git clone https://gitlab.com/lms/integration_servidor.git
-    cd integration_servidor/
+    git clone https://github.com/TalentumLAB/lms_regional.git
+    cd lms_regional/
 ```
 
 Si la carpeta /servidor/repositories existe, ejecute los siguientes comandos:

@@ -1,0 +1,182 @@
+version: "3.8"
+
+services:
+  keycloak_db:
+    image: postgres:13
+    container_name: keycloak_db
+    restart: always
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./databases/postgres/:/docker-entrypoint-initdb.d/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - aulas-steam-net
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: mailhog
+    restart: always
+    logging:
+      driver: 'none'
+    ports:
+      - 8025:8025
+    networks:
+      - aulas-steam-net
+
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: always
+    command: --bind-address=0.0.0.0 --max-allowed-packet=128M --innodb-file-per-table=1
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: simat_db
+    expose:
+      - "3306"
+    volumes:
+      - mariadb1:/var/lib/mysql
+      - ./databases/simat:/docker-entrypoint-initdb.d
+    networks:
+      - aulas-steam-net
+    
+  mariadb2:
+    image: mariadb:latest
+    container_name: mariadb2
+    restart: always
+    command: --bind-address=0.0.0.0 --max-allowed-packet=128M --innodb-file-per-table=1
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: moodle_db
+    expose:
+      - "3306"
+    volumes:
+      - mariadb2:/var/lib/mysql
+      - ./databases/moodle:/docker-entrypoint-initdb.d
+    networks:
+      - aulas-steam-net
+
+  keycloak:
+    image: docker.io/bitnami/keycloak:20
+    container_name: aulas_keycloak
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      KEYCLOAK_CREATE_ADMIN_USER: true
+      KEYCLOAK_ADMIN_USER: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
+      KEYCLOAK_MANAGEMENT_USER: manager
+      KEYCLOAK_MANAGEMENT_PASSWORD: password
+
+      KEYCLOAK_DATABASE_HOST: keycloak_db
+      KEYCLOAK_DATABASE_PORT: 5432
+      KEYCLOAK_DATABASE_NAME: keycloak
+      KEYCLOAK_DATABASE_USER: postgres
+      KEYCLOAK_DATABASE_PASSWORD: postgres
+      KEYCLOAK_DATABASE_SCHEMA: public
+      KEYCLOAK_HTTP_PORT: 8080
+      KEYCLOAK_BIND_ADDRESS: 0.0.0.0
+      KEYCLOAK_ENABLE_STATISTICS: true
+      KEYCLOAK_PRODUCTION: false
+      KC_HTTP_RELATIVE_PATH: "/auth"
+      KEYCLOAK_LOG_LEVEL: INFO
+      THEME_NAME: aulasregional
+    ports:
+      - 8080:8080
+    volumes:
+      - ./keycloak/config:/opt/bitnami/keycloak/data/import
+      - ./keycloak/theme:/opt/bitnami/keycloak/providers
+    depends_on:
+      keycloak_db:
+        condition: service_healthy
+    networks:
+      - aulas-steam-net
+
+  backend:
+    image: bilinguismotalentum/backend:1.3.2-etlv2
+    container_name: aulas_steam_reporter_backend
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      JWKS_URI: http://steam.narino.gov.co:8080/auth/realms/aulasregional/protocol/openid-connect/certs
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: ""
+      DB_DATABASE: simat_db
+      KEYCLOAK_DB_HOST: keycloak_db
+      KEYCLOAK_DB_PORT: 5432
+      KEYCLOAK_DB_USER: postgres
+      KEYCLOAK_DB_NAME: keycloak
+      KEYCLOAK_DB_PASSWORD: postgres
+      KEYCLOAK_API_URL: /admin/realms/aulassteamregional
+      KEYCLOAK_BASE_URL: http://steam.narino.gov.co:8080/auth
+      KEYCLOAK_CLIENT_ID: client-api
+      KEYCLOAK_CLIENT_SECRET: IzqX3IUCmGSvHl6DVhcPjoj3aJNdbeYY
+      KEYCLOAK_GET_TOKEN_URL: /realms/aulassteamregional/protocol/openid-connect/token
+      OVERRIDE_DB_HOST: mariadb
+      OVERRIDE_DB_PASSWORD: ""
+      OVERRIDE_DB_PORT: 3306
+      OVERRIDE_DB_USER: root
+
+    ports:
+      - "4000:4000"
+    depends_on:
+      - keycloak
+    networks:
+      - aulas-steam-net
+
+  frontend:
+    image: bilinguismotalentum/frontend:1.3.0-regional
+    container_name: bilng_valle_reporter_frontend
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      KEYCLOAK_CLIENT_ID: sireporterfrontend
+      KEYCLOAK_CLIENT_SECRET: CZdAn60OXtkdfHsyQAc5q4fDC5tYC9Dq
+      KEYCLOAK_HOST: http://steam.narino.gov.co:8080/auth
+      KEYCLOAK_REALM: aulassteamregional
+      NEXT_PUBLIC_DEFAULT_AUTH_PROVIDER: keycloak
+      NEXT_PUBLIC_BACKEND: http://steam.narino.gov.co:4000
+      NEXTAUTH_URL: http://steam.narino.gov.co:3000
+      NEXT_PUBLIC_DATABASE_KEY_NAME: bilinguismo_db
+      NEXT_PUBLIC_URL_DATA_SYNC: https://sync.aulasregional.com.co/data
+    ports: 
+      - "3000:3000"
+    depends_on:
+      - backend
+      - keycloak
+    networks:
+      - aulas-steam-net
+
+  moodle:
+    image: bilinguismotalentum/php74-apache2:1.0.1
+    container_name: aulas_moodle
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - '5000:80'
+    networks:
+      - aulas-steam-net
+    volumes:
+      - './moodle/moodledata:/var/www/moodledata'
+      - './moodle/moodle:/var/www/html'
+    
+volumes:
+  pgdata:
+  mariadb1:
+  mariadb2:
+
+networks:
+  aulas-steam-net:
+    driver: bridge
