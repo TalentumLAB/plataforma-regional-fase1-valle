@@ -52,9 +52,9 @@ Uso
     ```
     cd moodle
 
-    wget https://por_definir/moodle.zip
+    wget https://aulas-7m.s3.amazonaws.com/regional/moodle.zip
 
-    wget https://por_definir/moodledata.zip
+    wget https://aulas-7m.s3.amazonaws.com/regional/moodledata.zip
     ```
 
 4. Asignar permisos a carpetas de lms
@@ -68,7 +68,7 @@ Uso
     ```
     cd databases/moodle
 
-    wget https://por_definir/moodledb.sql
+    wget https://aulas-7m.s3.amazonaws.com/regional/moodledb.sql
     ```
 6.  Regresar a directorio raiz y a ejecutar el archivo docker compose:
     ```
