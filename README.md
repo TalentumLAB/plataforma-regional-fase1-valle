@@ -48,13 +48,17 @@ Uso
 
     cd plataforma-regional-fase1-narino
     ```
-3.  Descargar contenido del lms
+3.  Descargar y descomprimir el contenido del lms, el cual se encuentra comprimido en archivos .zip
     ```
     cd moodle
 
     wget https://aulas-7m.s3.amazonaws.com/regional/moodle.zip
 
+    unzip moodle.zip 
+
     wget https://aulas-7m.s3.amazonaws.com/regional/moodledata.zip
+
+    unzip moodledata.zip
     ```
 
 4. Asignar permisos a carpetas de lms
