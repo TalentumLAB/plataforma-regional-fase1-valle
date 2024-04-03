@@ -52,7 +52,7 @@ Uso
     ```
     cd moodle
 
-    wget https://aulas-7m.s3.amazonaws.com/regional/moodle.zip
+    wget https://aulas-7m.s3.amazonaws.com/regional/moodle2.zip
 
     unzip moodle.zip 
 
@@ -72,7 +72,7 @@ Uso
     ```
     cd databases/moodle
 
-    wget https://aulas-7m.s3.amazonaws.com/regional/moodledb.sql
+    wget https://aulas-7m.s3.amazonaws.com/regional/moodledb2.sql
     ```
 6.  Regresar a directorio raiz y a ejecutar el archivo docker compose:
     ```
