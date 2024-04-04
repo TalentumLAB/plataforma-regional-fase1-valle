@@ -74,7 +74,7 @@ Uso
     ```
     cd /repositories/plataforma-regional-fase1-narino/databases/moodle
 
-    wget https://aulas-7m.s3.amazonaws.com/regional/moodledb2.sql
+    wget https://aulas-7m.s3.amazonaws.com/regional/moodledb3.sql
     ```
 6.  Regresar a directorio raiz y a ejecutar el archivo docker compose:
     ```
