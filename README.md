@@ -23,7 +23,8 @@ Requisitos
 *   Docker version 19.03.8 o superior
 *   Docker Compose version v2.20 o superior
 *   git version 2.20.1 o superior
-*   zip version 3.0 o superir
+*   zip version 3.0 o superior
+*   7zip version 16.02 o superior
 *   wget version 1.20.1 o superior
 *   Carpetas de moodle y moodledata ubicadas en la carpeta moodle del repositorio
 *   Archivos de base de datos ubicados en la carpeta de databases
@@ -54,11 +55,9 @@ Uso
     ```
     cd moodle
 
-    wget https://aulas-7m.s3.amazonaws.com/regional/moodle5.zip
+    wget https://aulas-7m.s3.amazonaws.com/regional/moodle6.zip
     
-    export LANG=es_US.UTF-8
-
-    unzip moodle5.zip 
+    7z x moodle6.zip 
 
     wget https://aulas-7m.s3.amazonaws.com/regional/moodledata3.zip
 
