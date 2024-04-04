@@ -76,6 +76,8 @@ Uso
     ```
 6.  Regresar a directorio raiz y a ejecutar el archivo docker compose:
     ```
+    cd /repositories/plataforma-regional-fase1-narino
+    
     docker-compose up -d
     ```
 
