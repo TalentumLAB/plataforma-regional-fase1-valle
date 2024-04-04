@@ -54,11 +54,11 @@ Uso
     ```
     cd moodle
 
-    wget https://aulas-7m.s3.amazonaws.com/regional/moodle3.zip
+    wget https://aulas-7m.s3.amazonaws.com/regional/moodle5.zip
     
     export LANG=es_US.UTF-8
 
-    unzip moodle3.zip 
+    unzip moodle5.zip 
 
     wget https://aulas-7m.s3.amazonaws.com/regional/moodledata3.zip
 
