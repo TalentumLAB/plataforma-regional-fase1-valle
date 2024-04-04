@@ -65,9 +65,9 @@ Uso
 
 4. Asignar permisos a carpetas de lms
     ```
-    chown -R www-data: moodle2
+    chown -R www-data: moodle
     chown -R www-data: moodledata
-    chmod -R 755 moodle2
+    chmod -R 755 moodle
     chmod -R 755 moodledata
     ```
 5.  Descargar archivo .sql de la base de datos de moodle.
