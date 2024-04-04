@@ -56,7 +56,7 @@ Uso
 
     wget https://aulas-7m.s3.amazonaws.com/regional/moodle3.zip
 
-    unzip moodle2.zip 
+    unzip moodle3.zip 
 
     wget https://aulas-7m.s3.amazonaws.com/regional/moodledata.zip
 
