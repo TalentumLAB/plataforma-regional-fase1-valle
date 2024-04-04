@@ -55,6 +55,8 @@ Uso
     cd moodle
 
     wget https://aulas-7m.s3.amazonaws.com/regional/moodle3.zip
+    
+    export LANG=es_US.UTF-8
 
     unzip moodle3.zip 
 
