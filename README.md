@@ -4,14 +4,16 @@ Proyecto Aulas Steam
 Contenido
 ---------
 
-*   [Requisitos](#requisitos)
-*   [Descripción](#descripcion)
-*   [Uso](#uso)
-    *   [Instrucciones](#instrucciones)
-*   [Docker-Compose](#docker-compose)
-    *   [Servicios](#servicios)
-    *   [Volúmenes](#volúmenes)
-    *   [Redes](#redes)
+- [Proyecto Aulas Steam](#proyecto-aulas-steam)
+	- [Contenido](#contenido)
+	- [Requisitos](#requisitos)
+	- [Descripción](#descripción)
+	- [Uso](#uso)
+		- [Instrucciones](#instrucciones)
+	- [Docker-Compose](#docker-compose)
+		- [Servicios](#servicios)
+		- [Volúmenes](#volúmenes)
+		- [Redes](#redes)
 
 * * *
 
@@ -54,7 +56,7 @@ Uso
 
     wget https://aulas-7m.s3.amazonaws.com/regional/moodle2.zip
 
-    unzip moodle.zip 
+    unzip moodle2.zip 
 
     wget https://aulas-7m.s3.amazonaws.com/regional/moodledata.zip
 
@@ -63,14 +65,14 @@ Uso
 
 4. Asignar permisos a carpetas de lms
     ```
-    chown -R www-data: moodle
+    chown -R www-data: moodle2
     chown -R www-data: moodledata
-    chmod -R 755 moodle
+    chmod -R 755 moodle2
     chmod -R 755 moodledata
     ```
 5.  Descargar archivo .sql de la base de datos de moodle.
     ```
-    cd databases/moodle
+    cd /repositories/plataforma-regional-fase1-narino/databases/moodle
 
     wget https://aulas-7m.s3.amazonaws.com/regional/moodledb2.sql
     ```
