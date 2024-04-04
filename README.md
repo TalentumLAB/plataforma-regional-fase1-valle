@@ -58,9 +58,9 @@ Uso
 
     unzip moodle3.zip 
 
-    wget https://aulas-7m.s3.amazonaws.com/regional/moodledata.zip
+    wget https://aulas-7m.s3.amazonaws.com/regional/moodledata3.zip
 
-    unzip moodledata.zip
+    unzip moodledata3.zip
     ```
 
 4. Asignar permisos a carpetas de lms
