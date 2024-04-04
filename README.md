@@ -54,7 +54,7 @@ Uso
     ```
     cd moodle
 
-    wget https://aulas-7m.s3.amazonaws.com/regional/moodle2.zip
+    wget https://aulas-7m.s3.amazonaws.com/regional/moodle3.zip
 
     unzip moodle2.zip 
 
