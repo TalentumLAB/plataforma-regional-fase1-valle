@@ -47,9 +47,9 @@ Uso
     ```
 2.  Clonar este repositorio y navegar hacia la carpeta.
     ```
-    git clone https://github.com/TalentumLAB/plataforma-regional-fase1-narino.git
+    git clone https://github.com/TalentumLAB/plataforma-regional-fase1-valle.git
 
-    cd plataforma-regional-fase1-narino
+    cd plataforma-regional-fase1-valle
     ```
 3.  Descargar y descomprimir el contenido del lms, el cual se encuentra comprimido en archivos .zip
     ```
@@ -73,13 +73,13 @@ Uso
     ```
 5.  Descargar archivo .sql de la base de datos de moodle.
     ```
-    cd /repositories/plataforma-regional-fase1-narino/databases/moodle
+    cd /repositories/plataforma-regional-fase1-valle/databases/moodle
 
     wget https://aulas-7m.s3.amazonaws.com/regional/moodle3.sql
     ```
 6.  Regresar a directorio raiz y a ejecutar el archivo docker compose:
     ```
-    cd /repositories/plataforma-regional-fase1-narino
+    cd /repositories/plataforma-regional-fase1-valle
     
     docker-compose up -d
     ```
@@ -88,11 +88,11 @@ Uso
 
 7.  Acceder a las aplicaciones a través de los siguientes enlaces:
 
-*   Keycloak: [http://steam.narino.gov.co:8080](http://steam.narino.gov.co:8080)
-*   Backend: [http://steam.narino.gov.co:4000](http://steam.narino.gov.co:4000)
-*   Frontend: [http://steam.narino.gov.co:3000](http://steam.narino.gov.co:3000)
-*   Moodle: [http://steam.narino.gov.co:5000](http://steam.narino.gov.co:5000)
-*   Mailhog (para pruebas de correo): [http://steam.narino.gov.co:8025](http://steam.narino.gov.co:8025)
+*   Keycloak: [http://localhost:8080](http://localhost:8080)
+*   Backend: [http://localhost:4000](http://localhost:4000)
+*   Frontend: [http://localhost:3000](http://localhost:3000)
+*   Moodle: [http://localhost:5000](http://localhost:5000)
+*   Mailhog (para pruebas de correo): [http://localhost:8025](http://localhost:8025)
 
 8.  Probar los aplicativos
 

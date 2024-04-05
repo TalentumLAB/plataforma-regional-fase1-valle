@@ -68,7 +68,7 @@ services:
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
-      - "steam.narino.gov.co:host-gateway"
+      - "localhost:host-gateway"
     environment:
       KEYCLOAK_CREATE_ADMIN_USER: true
       KEYCLOAK_ADMIN_USER: admin
@@ -106,9 +106,9 @@ services:
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
-      - "steam.narino.gov.co:host-gateway"
+      - "localhost:host-gateway"
     environment:
-      JWKS_URI: http://steam.narino.gov.co:8080/auth/realms/aulasregional/protocol/openid-connect/certs
+      JWKS_URI: http://localhost:8080/auth/realms/aulasregional/protocol/openid-connect/certs
       DB_HOST: mariadb
       DB_PORT: 3306
       DB_USER: root
@@ -120,7 +120,7 @@ services:
       KEYCLOAK_DB_NAME: keycloak
       KEYCLOAK_DB_PASSWORD: postgres
       KEYCLOAK_API_URL: /admin/realms/aulassteamregional
-      KEYCLOAK_BASE_URL: http://steam.narino.gov.co:8080/auth
+      KEYCLOAK_BASE_URL: http://localhost:8080/auth
       KEYCLOAK_CLIENT_ID: client-api
       KEYCLOAK_CLIENT_SECRET: IzqX3IUCmGSvHl6DVhcPjoj3aJNdbeYY
       KEYCLOAK_GET_TOKEN_URL: /realms/aulassteamregional/protocol/openid-connect/token
@@ -142,15 +142,15 @@ services:
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
-      - "steam.narino.gov.co:host-gateway"
+      - "localhost:host-gateway"
     environment:
       KEYCLOAK_CLIENT_ID: sireporterfrontend
       KEYCLOAK_CLIENT_SECRET: CZdAn60OXtkdfHsyQAc5q4fDC5tYC9Dq
-      KEYCLOAK_HOST: http://steam.narino.gov.co:8080/auth
+      KEYCLOAK_HOST: http://localhost:8080/auth
       KEYCLOAK_REALM: aulassteamregional
       NEXT_PUBLIC_DEFAULT_AUTH_PROVIDER: keycloak
-      NEXT_PUBLIC_BACKEND: http://steam.narino.gov.co:4000
-      NEXTAUTH_URL: http://steam.narino.gov.co:3000
+      NEXT_PUBLIC_BACKEND: http://localhost:4000
+      NEXTAUTH_URL: http://localhost:3000
       NEXT_PUBLIC_DATABASE_KEY_NAME: bilinguismo_db
       NEXT_PUBLIC_URL_DATA_SYNC: https://sync.aulasregional.com.co/data
     ports: 
@@ -167,7 +167,7 @@ services:
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
-      - "steam.narino.gov.co:host-gateway"
+      - "localhost:host-gateway"
     ports:
       - '5000:80'
     networks:
